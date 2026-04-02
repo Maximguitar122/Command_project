@@ -1,4 +1,4 @@
-﻿@model Luftreise_Command_project_.Models.SearchModels
+@model Luftreise_Command_project_.Models.SearchModels
 <div class=" plane">
 
     <h1 class="title">Luftreise</h1>
@@ -123,17 +123,27 @@
 
     
     .input-from,
-    .input-to,
+    .input-to{
+            flex: 1 1 200px;
+            max-width: 250px;
+            height: 55px;
+            border-radius: 12px;
+            border: none;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            font-size: clamp(14px, 2vw, 16px);
+    }
     .input-date {
-        flex: 1 1 200px;
-        max-width: 250px;
-        height: 55px;
-        border-radius: 12px;
-        border: none;
-        padding: 10px 15px;
-        background: rgba(255,255,255,0.85);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-        font-size: clamp(14px, 2vw, 16px);
+            flex: 1 1 200px;
+            max-width: 250px;
+            height: 55px;
+            border-radius: 12px;
+            border: none;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            font-size: clamp(14px, 2vw, 16px);
     }
     
     .search-button {
@@ -304,7 +314,12 @@
 
     }
 
+}
+
        
+
+
+  
 @@media (max-width: 768px) {
 
     
@@ -322,6 +337,7 @@
             }
 
             .route-group {
+                
                     max-width: 100%;
             }
 
