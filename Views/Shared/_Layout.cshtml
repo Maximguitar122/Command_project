@@ -1,12 +1,32 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Luftreise</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-
+    <header class="header"> 
+         <div class="header-container">
+             <div class="logo">
+                <span class="logo-icon">✈</span>
+                <span class="logo-text">Luftreise</span>
+             </div>
+        <nav class="nav">
+            <a href="/" class="active">Головна</a>
+            <a href="#">Рейси</a>
+            <a href="#">Про нас</a>
+        </nav>
+        <div class="profile">
+                <span class="profile-icon">👤</span>
+                <span class="profile-text">Профіль</span>
+        </div>
+         </div>
+    </header>
     @RenderBody()
 
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

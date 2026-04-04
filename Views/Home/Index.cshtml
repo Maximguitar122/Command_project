@@ -1,378 +1,70 @@
 @model Luftreise_Command_project_.Models.SearchModels
-<div class=" plane">
 
-    <h1 class="title">Luftreise</h1>
-    
-    <form action="/Home/Search" method="post" class="search-form">
-        <div class="route-group">
-        <input class="input-from"  type="text" name="From" placeholder="From" />
-        <img src="/img/swap_horiz.png" class="mark" />
-        <input class="input-to" type="text" name="To" placeholder="To" />
-        </div>
-        <input class="input-date" type ="date" name="FlightDate" />
-       
-        <button class="search-button" type ="submit">Find Flights</button>
-    </form>
-    <div class="button-rows">
-        <button class="img-button">
-            <img src="/img/Help circle.png" />
-           
-        </button>
-        <button class="img-button">
-           
-            <img src="/img/language.png" />
-           
-        </button>
-        <button class="img-button">
+@{
+    ViewData["Title"] = "Головна - Luftreise";
 
-            <img src="/img/Log in.png" />
-
-        </button>
-
-        
-    </div>
-    <h2>Buy tickets at great prices</h2>
-    <div class="cards">
-        <a href="/Flights/Buy?from=Kosice&to=Bratislava" class="card">
-             <img src="/img/City 1.png" />
-             <div class="card-info">
-                <span>Kosice → Bratislava</span>
-                <span class="price">19€</span>
-             </div>
-        </a>
-        <a href="/Flights/Buy?from=Budapest&to=Paris" class="card">
-            <img src="/img/City 2.png" />
-            <div class="card-info">
-                <span>Budapest → Paris</span>
-                <span class="price">68€</span>
-            </div>
-        </a>
-        <a href="/Flights/Buy?from=Kosice&to=Rome" class="card">
-            <img src="/img/City 3.png" />
-            <div class="card-info">
-                <span>Kosice → Rome</span>
-                <span class="price">56€</span>
-
-            </div>
-           
-        </a>
-        <a href="/Flights/Buy?from=Kosice&to=London" class="card">
-            <img src="/img/City 4.png" />
-            <div class="card-info">
-                <span>Kosice → London</span>
-                <span class="price">34€</span>
-
-            </div>
-        </a>
-</div>
-    <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-        background: url('/img/Luftreise.png') no-repeat center center;
-        background-size: cover;
-        min-height: 100vh;
-    }
-
-        
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: linear-gradient( rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25) );
-            z-index: -1;
-        }
-
- 
-    .plane {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
-
-  
-    h1 {
-        font-size: clamp(40px, 8vw, 100px);
-        color: #f0f4ff;
-        text-align: center;
-        margin-top: 30px;
-        text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .search-form {
-        width: 100%;
-        max-width: 1100px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        padding: 20px;
-        margin-top: 40px;
-        border-radius: 25px;
-        background: rgba(255,255,255,0.25);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255,255,255,0.3);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    }
-
-    
-    .input-from,
-    .input-to{
-            flex: 1 1 200px;
-            max-width: 250px;
-            height: 55px;
-            border-radius: 12px;
-            border: none;
-            padding: 10px 15px;
-            background: rgba(255,255,255,0.85);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            font-size: clamp(14px, 2vw, 16px);
-    }
-    .input-date {
-            flex: 1 1 200px;
-            max-width: 250px;
-            height: 55px;
-            border-radius: 12px;
-            border: none;
-            padding: 10px 15px;
-            background: rgba(255,255,255,0.85);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            font-size: clamp(14px, 2vw, 16px);
-    }
-    
-    .search-button {
-        flex: 1 1 200px;
-        max-width: 220px;
-        height: 55px;
-        border-radius: 50px;
-        border: none;
-        background: linear-gradient(135deg, #0B95FE, #007BFF);
-        color: white;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-        .search-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-    
-    .mark {
-        width: 24px;
-        height: 24px;
-        align-self: center;
-    }
-
-   
-    .button-rows {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        display: flex;
-        gap: 10px;
-    }
-
-    .img-button {
-        background: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        transition: 0.3s ease;
-    }
-
-        .img-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(11, 149, 254, 0.6);
-        }
-
-   
-    h2 {
-
-       
-        color: white;
-        text-align: center;
-       
-        font-weight: 800; 
-        text-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        font-size: 30px;
-            margin-top: 15px;
-    }
-
-      
-
-        .button-rows {
-            top: 15px;
-            right: 10px;
-        }
-
-        .img-button img {
-            width: 22px;
-        }
-
-        .cards {
-            margin-top: -50px;
-        }
- 
-        .cards {
-            margin-top: 150px;
-            width: 100%;
-            max-width: 1500px;
-            display: grid;
-            grid-template-columns: repeat(4,1fr); 
-            gap: 20px;
-            padding: 30px;
-        }
-
-        .card {
-            position: relative;
-            display: block;
-            border-radius: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            transition: 0.3s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-            .card img {
-                width: 150%;
-                height: 100%;
-                object-fit: cover;
-                transition: 0.4s;
-            }
-
-            .card:hover img {
-                transform: scale(1.1);
-            }
-
-            .card:hover {
-                transform: translateY(-5px);
-            }
-
-        .card-info {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
-            color: white;
-            font-weight: 600;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-        }
-
-        .price {
-            background: rgba(0,0,0,0.6);
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-
-        .route-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 2 1 400px;
-            width: 100%;
-        }
-@@media (max-width: 480px) {
-
-        .plane {
-            padding: 15px;
-        }
-
-        h1 {
-            font-size: 40px;
-            margin-top: 15px;
-        }
-       
-
-        .search-form {
-              padding: 10px;
-              gap: 8px;
-        }
-
-        .input-from,
-        .input-to,
-        .input-date {
-              height: 36px;
-              font-size: 13px;
-              padding: 5px 10px;
-        }
-
-        .search-button {
-              height: 38px;
-              font-size: 13px;
-        }
-
-    }
-
+    var from = Model?.From ?? "";
+    var to = Model?.To ?? "";
+    var flightDate = Model?.FlightDate != default
+        ? Model.FlightDate.ToString("yyyy-MM-dd")
+        : "";
 }
 
-       
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="title">Luftreise</h1>
+        <p class="subtitle">Відкрийте світ разом з Luftreise</p>
 
+        <div class="search-form-container">
+            <form asp-action="Search" asp-controller="Home" method="post" class="search-form">
 
-  
-@@media (max-width: 768px) {
+                <div class="form-row form-row-top">
+                    <div class="input-group">
+                        <label for="from">Звідки</label>
+                        <input id="from" type="text" name="From" placeholder="Київ (KBP)" value="@from" />
+                    </div>
 
-    
+                    <div class="swap-wrapper">
+                        <button type="button" class="swap-btn" onclick="swapFields()" aria-label="Поміняти місцями напрямки">
+                            ↔
+                        </button>
+                    </div>
 
-             .mark {
-                display: block; 
-                margin: -5px auto; 
-                width: 20px;
-                height: 20px;
-             }
+                    <div class="input-group">
+                        <label for="to">Куди</label>
+                        <input id="to" type="text" name="To" placeholder="Париж (CDG)" value="@to" />
+                    </div>
+                </div>
 
-            .search-form {
-                flex-direction: column;
-                align-items: stretch;
-            }
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="flightDate">Дата вильоту</label>
+                        <input id="flightDate" type="date" name="FlightDate" value="@flightDate" />
+                    </div>
 
-            .route-group {
-                
-                    max-width: 100%;
-            }
+                    <div class="input-group">
+                        <label for="returnDate">Дата повернення</label>
+                        <input id="returnDate" type="date" name="ReturnDate" />
+                    </div>
+                </div>
 
-            .mark {
-                transform: rotate(90deg);
-            }
+                <button type="submit" class="search-btn">
+                    Знайти рейси →
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
 
-            .input-from,
-            .input-to,
-            .input-date,
-            .search-button {
-                width: 100%;
-            }
-        
-    }
+@section Scripts {
+    <script>
+        function swapFields() {
+            const fromInput = document.getElementById('from');
+            const toInput = document.getElementById('to');
 
- 
-    @@media (max-width: 1200px) {
-
-        .search-form {
-            max-width: 90%;
+            const temp = fromInput.value;
+            fromInput.value = toInput.value;
+            toInput.value = temp;
         }
-    }
-    @@media (max-width: 900px) {
-
-        .cards {
-           grid-template-columns: repeat(2,1fr);
-        }
-    }
-
-       
-    @@media (max-width: 420px) {
-
-         .cards {
-            grid-template-columns: 1fr;
-         }
-    }
-
-</style>
+    </script>
+}
