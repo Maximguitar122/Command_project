@@ -20,13 +20,46 @@
             <a href="#">Про нас</a>
         </nav>
         <div class="profile">
-                <span class="profile-icon">👤</span>
-                <span class="profile-text">Профіль</span>
-        </div>
+                <a asp-controller="Account" asp-action="Login" class="profile-btn">
+                    <span class="profile-icon">👤</span>
+                    Профіль
+                </a>
+               </div>
          </div>
     </header>
     @RenderBody()
+    <footer class="footer">
+        <div class="footer-container">
 
+            
+            <div class="footer-brand">
+                <h2>Luftreise</h2>
+                <p>Подорожуйте світом легко та комфортно</p>
+            </div>
+
+           
+          
+            
+            <div class="footer-column">
+                <h4>Підтримка</h4>
+                <a href="#">Допомога</a>
+                <a href="#">Політика</a>
+                <a href="#">Умови</a>
+            </div>
+
+           
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <p>Email: support@luftreise.com</p>
+                <p>Тел: +380 95 010 340</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Luftreise. Всі права захищені.
+        </div>
+    </footer>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

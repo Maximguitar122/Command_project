@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Реєстрація";
+}
+<section class="auth-page">
+    <div class="auth-overlay"></div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+
+         
+            <div class="auth-left">
+                <div class="auth-brand">Luftreise</div>
+                <h1>Створіть акаунт</h1>
+                <p>
+                    Зареєструйтесь, щоб бронювати квитки,
+                    керувати поїздками та отримати повний доступ до сервісу.
+                </p>
+
+                <ul class="auth-benefits">
+                    <li>Швидке бронювання</li>
+                    <li>Особистий кабінет</li>
+                    <li>Історія поїздок</li>
+                </ul>
+            </div>
+
+           
+            <div class="auth-right">
+
+               
+                <div class="close-btn" onclick="closeRegister()">✕</div>
+
+                <div class="auth-header">
+                    <h2>Реєстрація</h2>
+                    <p>Заповніть форму для реєстрації</p>
+                </div>
+
+                <form asp-controller="Account" asp-action="Sign_UP" method="post" class="auth-form">
+
+                    <div class="form-group">
+                        <label>ПІБ</label>
+                        <input type="text" name="FullName" placeholder="Ім’я Прізвище" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="Email" placeholder="example@email.com" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="text" name="Phone" placeholder="+380..." required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Місто</label>
+                        <input type="text" name="City" placeholder="Одеса" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Країна</label>
+                        <input type="text" name="Country" placeholder="Україна" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Дата народження</label>
+                        <input type="date" name="BirthDate" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" name="Password" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Підтвердження пароля</label>
+                        <input type="password" name="ConfirmPassword" required />
+                    </div>
+
+                    <button type="submit" class="auth-btn">Зареєструватися</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>
+                        Вже маєте акаунт?
+                        <a asp-controller="Account" asp-action="Login">Увійти</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section> 
+@section Scripts {
+    <script>
+        function closeRegister(){
+            window.location.href = '/';
+        }
+    </script>
+}

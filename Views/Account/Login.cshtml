@@ -1,4 +1,75 @@
-﻿@page
-@model Luftreise_Command_project_.Views.Account.LoginModel
-@{
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="auth-page">
+    <div class="auth-overlay"></div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="close-btn" onclick="closeLogin()">✕</div>
+            <div class="auth-left">
+                <div class="auth-brand">Luftreise</div>
+                <h1>Ласкаво просимо</h1>
+                <p>
+                    Увійдіть до свого акаунта, щоб керувати бронюваннями,
+                    переглядати квитки та користуватися можливостями сервісу.
+                </p>
+
+                <ul class="auth-benefits">
+                    <li>Керування бронюваннями</li>
+                    <li>Доступ до особистого кабінету</li>
+                    <li>Швидке відновлення доступу</li>
+                </ul>
+            </div>
+
+            <div class="auth-right">
+                <div class="auth-header">
+                    <h2>Вхід</h2>
+                    <p>Введіть свої дані для входу</p>
+                </div>
+
+                <form asp-controller="Account" asp-action="Login" method="post" class="auth-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" name="Email" placeholder="example@email.com" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input id="password" type="password" name="Password" placeholder="••••••••" required />
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="remember-me">
+                            <input type="checkbox" name="RememberMe" />
+                            <span>Запам’ятати мене</span>
+                        </label>
+
+                        <a asp-controller="Account" asp-action="ForgotPassword" class="forgot-link">
+                            Забули пароль?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="auth-btn">Увійти</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>
+                        Ще не маєте акаунта?
+                        <a asp-controller="Account" asp-action="Sign_Up">Зареєструватися</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function closeLogin(){
+            window.location.href = '/';
+        }
+    </script>
 }
