@@ -18,7 +18,6 @@ namespace Luftreise_Command_project_.Controllers
         {
             return View(new LoginModel());
         }
-
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
@@ -33,20 +32,23 @@ namespace Luftreise_Command_project_.Controllers
                 return View(model);
             }
 
+            HttpContext.Session.SetString("UserEmail", user.Email);
+
             if (model.RememberMe)
             {
                 Response.Cookies.Append("UserEmail", user.Email, new CookieOptions
                 {
-                    Expires = DateTimeOffset.Now.AddDays(30)
+                    Expires = DateTimeOffset.Now.AddDays(30),
+                    HttpOnly = true,
+                    IsEssential = true
                 });
             }
-
-
-            HttpContext.Session.SetString("UserEmail", user.Email);
-            UserStore.CurrentUser = user;
+            else
+            {
+                Response.Cookies.Delete("UserEmail");
+            }
 
             TempData["SuccessMessage"] = "Вхід успішний";
-
             return RedirectToAction("Profile");
         }
 
@@ -108,19 +110,7 @@ namespace Luftreise_Command_project_.Controllers
             return RedirectToAction("Login");
         }
 
-        [HttpGet]
-        public IActionResult Profile()
-        {
-            var sessionEmail = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(sessionEmail))
-                return RedirectToAction("Login");
-
-            var currentUser = UserStore.GetUserByEmail(sessionEmail);
-            if (currentUser == null)
-                return RedirectToAction("Login");
-
-            return View(currentUser);
-        }
+       
 
         [HttpPost]
         public IActionResult EditProfile(User model)
@@ -237,7 +227,7 @@ namespace Luftreise_Command_project_.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            UserStore.CurrentUser = null;
+            Response.Cookies.Delete("UserEmail");
             TempData["SuccessMessage"] = "Ви вийшли з акаунта";
             return RedirectToAction("Login");
         }
