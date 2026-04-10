@@ -1,99 +1,98 @@
-﻿@{
-    ViewData["Title"] = "Реєстрація";
-}
-<section class="auth-page">
+﻿@model Luftreise_Command_project_.Models.User
+
+<div class="auth-page">
     <div class="auth-overlay"></div>
 
     <div class="auth-container">
         <div class="auth-card">
+            <a asp-controller="Account" asp-action="Login" class="close-btn">✕</a>
 
-         
             <div class="auth-left">
-                <div class="auth-brand">Luftreise</div>
+                <span class="auth-brand">Luftreise</span>
                 <h1>Створіть акаунт</h1>
                 <p>
-                    Зареєструйтесь, щоб бронювати квитки,
-                    керувати поїздками та отримати повний доступ до сервісу.
+                    Зареєструйтеся, щоб керувати бронюваннями, переглядати квитки
+                    та користуватися можливостями сервісу.
                 </p>
 
                 <ul class="auth-benefits">
-                    <li>Швидке бронювання</li>
-                    <li>Особистий кабінет</li>
-                    <li>Історія поїздок</li>
+                    <li>Керування бронюваннями</li>
+                    <li>Доступ до особистого кабінету</li>
+                    <li>Швидке відновлення доступу</li>
                 </ul>
             </div>
 
-           
             <div class="auth-right">
-
-               
-                <div class="close-btn" onclick="closeRegister()">✕</div>
-
                 <div class="auth-header">
                     <h2>Реєстрація</h2>
-                    <p>Заповніть форму для реєстрації</p>
+                    <p>Заповніть дані для створення акаунта</p>
                 </div>
 
-                <form asp-controller="Account" asp-action="Sign_UP" method="post" class="auth-form">
+                <form asp-action="Sign_UP" asp-controller="Account" method="post" class="auth-form">
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
                     <div class="form-group">
-                        <label>ПІБ</label>
-                        <input type="text" name="FullName" placeholder="Ім’я Прізвище" required />
+                        <label asp-for="FullName">ПІБ</label>
+                        <input asp-for="FullName" />
+                        <span asp-validation-for="FullName" class="field-validation"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="Email" placeholder="example@email.com" required />
+                        <label asp-for="Email">Email</label>
+                        <input asp-for="Email" />
+                        <span asp-validation-for="Email" class="field-validation"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Телефон</label>
-                        <input type="text" name="Phone" placeholder="+380..." required />
+                        <label asp-for="Phone">Телефон</label>
+                        <input asp-for="Phone" />
+                        <span asp-validation-for="Phone" class="field-validation" placeholder="+380..."></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Місто</label>
-                        <input type="text" name="City" placeholder="Одеса" />
+                        <label asp-for="City">Місто</label>
+                        <input asp-for="City" />
+                        <span asp-validation-for="City" class="field-validation"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Країна</label>
-                        <input type="text" name="Country" placeholder="Україна" />
+                        <label asp-for="Country">Країна</label>
+                        <input asp-for="Country" />
+                        <span asp-validation-for="Country" class="field-validation"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Дата народження</label>
-                        <input type="date" name="BirthDate" />
+                        <label asp-for="BirthDate">Дата народження</label>
+                        <input asp-for="BirthDate" type="date" />
+                        <span asp-validation-for="BirthDate" class="field-validation"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" name="Password" required />
+                        <label asp-for="Password">Пароль</label>
+                        <input asp-for="Password" type="password" />
+                        <span asp-validation-for="Password" class="field-validation"></span>
                     </div>
 
                     <div class="form-group">
-                        <label>Підтвердження пароля</label>
-                        <input type="password" name="ConfirmPassword" required />
+                        <label asp-for="ConfirmPassword">Підтвердіть пароль</label>
+                        <input asp-for="ConfirmPassword" type="password" />
+                        <span asp-validation-for="ConfirmPassword" class="field-validation"></span>
                     </div>
 
                     <button type="submit" class="auth-btn">Зареєструватися</button>
+
+                    <div class="auth-footer">
+                        <p>
+                            Уже маєте акаунт?
+                            <a asp-controller="Account" asp-action="Login">Увійти</a>
+                        </p>
+                    </div>
                 </form>
-
-                <div class="auth-footer">
-                    <p>
-                        Вже маєте акаунт?
-                        <a asp-controller="Account" asp-action="Login">Увійти</a>
-                    </p>
-                </div>
             </div>
-
         </div>
     </div>
-</section> 
+</div>
+
 @section Scripts {
-    <script>
-        function closeRegister(){
-            window.location.href = '/';
-        }
-    </script>
+    <partial name="_ValidationScriptsPartial" />
 }

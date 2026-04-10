@@ -6,6 +6,11 @@
     <title>@ViewData["Title"] - Luftreise</title>
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @if (Context.Session.GetString("UserIsAdmin") == "Admin")
+    {
+        <a asp-controller="Account" asp-action="UsersList">Адмін панель</a>
+    }
 </head>
 <body>
     <header class="header"> 
@@ -19,13 +24,22 @@
             <a href="#">Рейси</a>
             <a href="#">Про нас</a>
         </nav>
-        <div class="profile">
-                <a asp-controller="Account" asp-action="Login" class="profile-btn">
-                    <span class="profile-icon">👤</span>
-                    Профіль
-                </a>
-               </div>
-         </div>
+            <div class="profile">
+                @if (Context.Session.GetString("UserEmail") != null)
+                {
+                    <a asp-controller="Account" asp-action="Profile" class="profile-btn">
+                        <span class="profile-icon">👤</span>
+                        Профіль
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="profile-btn">
+                        <span class="profile-icon">👤</span>
+                        Увійти
+                    </a>
+                }
+            </div>
     </header>
     @RenderBody()
     <footer class="footer">
@@ -61,5 +75,19 @@
         </div>
     </footer>
     @RenderSection("Scripts", required: false)
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="toast">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById("toast");
+            if (toast) toast.style.display = "none";
+        }, 3000);
+    </script>
+
+    
 </body>
 </html>

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="Views\SignUP_Profile\" />
+    <Folder Include="wwwroot\uploads\avatars\" />
   </ItemGroup>
 
 </Project>

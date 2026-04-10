@@ -1,1 +1,73 @@
-﻿
+﻿@model Luftreise_Command_project_.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+
+        <div class="profile-top-card">
+            <div class="profile-user-info">
+                <div class="profile-avatar">
+                    @if (!string.IsNullOrEmpty(Model.AvatarPath))
+                    {
+                        <img src="@Model.AvatarPath" alt="avatar" />
+                    }
+                    else
+                    {
+                        @Model.FullName.Substring(0, 1)
+                    }
+                </div>
+
+                <div>
+                    <h1>@Model.FullName</h1>
+                    <p>@Model.Email</p>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <a asp-controller="Account" asp-action="Logout" class="logout-btn">Вийти</a>
+                <a asp-controller="Account" asp-action="EditProfile" class="auth-btn">Редагувати</a>
+                <a asp-controller="Account" asp-action="DeleteProfile" class="auth-btn" style="background:red;">Видалити акаунт</a>
+            </div>
+        </div>
+
+        <div class="profile-details-card">
+            <h2>Особиста інформація</h2>
+
+            <div class="profile-grid">
+                <div class="profile-field">
+                    <label>ПІБ</label>
+                    <input type="text" value="@Model.FullName" disabled />
+                </div>
+
+                <div class="profile-field">
+                    <label>Email</label>
+                    <input type="text" value="@Model.Email" disabled />
+                </div>
+
+                <div class="profile-field">
+                    <label>Телефон</label>
+                    <input type="text" value="@Model.Phone" disabled />
+                </div>
+
+                <div class="profile-field">
+                    <label>Місто</label>
+                    <input type="text" value="@Model.City" disabled />
+                </div>
+
+                <div class="profile-field">
+                    <label>Країна</label>
+                    <input type="text" value="@Model.Country" disabled />
+                </div>
+
+                <div class="profile-field">
+                    <label>Дата народження</label>
+                    <input type="text" value="@Model.BirthDate?.ToString("dd.MM.yyyy")" disabled />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
