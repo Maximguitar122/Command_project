@@ -1,0 +1,256 @@
+﻿@model Luftreise_Command_project_.Models.SearchModels
+
+@{
+    ViewData["Title"] = "Рейси";
+}
+
+<section class="booking-page">
+    <div class="booking-container">
+
+        <div class="booking-header">
+            <h1>Рейси: @Model.From → @Model.To</h1>
+            <p>
+                Дата: @Model.FlightDate.ToString("yyyy-MM-dd")
+                <span class="dot">•</span>
+                Пасажири: 1
+            </p>
+        </div>
+
+        <div class="booking-content">
+
+            <aside class="filters-panel">
+                <div class="filters-card">
+                    <h2>Фільтри</h2>
+
+                    <div class="filter-group">
+                        <label for="priceRange">Максимальна ціна: <span id="priceValue">500</span> €</label>
+                        <input type="range" id="priceRange" min="50" max="500" value="500" />
+                    </div>
+
+                    <div class="filter-group">
+                        <h3>Клас</h3>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" checked />
+                            <span>Економ</span>
+                        </label>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" checked />
+                            <span>Бізнес</span>
+                        </label>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" checked />
+                            <span>Перший клас</span>
+                        </label>
+                    </div>
+
+                    <button type="button" class="reset-btn">Скинути фільтри</button>
+                </div>
+            </aside>
+
+            <div class="flights-section">
+                <p class="results-count">Знайдено 4 рейсів</p>
+
+                <div class="flight-card">
+                    <div class="flight-top">
+                        <div class="airline-box">
+                            <div class="airline-icon">✈</div>
+                            <div>
+                                <h3>Luftreise Airways</h3>
+                                <p>LR 1234</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flight-main">
+                        <div class="flight-time-block">
+                            <h2>08:30</h2>
+                            <p>KBP</p>
+                            <span>@Model.From</span>
+                        </div>
+
+                        <div class="flight-middle">
+                            <div class="flight-line"></div>
+                            <p>3г 15хв</p>
+                            <span>Прямий</span>
+                        </div>
+
+                        <div class="flight-time-block">
+                            <h2>11:45</h2>
+                            <p>CDG</p>
+                            <span>@Model.To</span>
+                        </div>
+
+                        <div class="flight-price">
+                            <h2>299 €</h2>
+                            <p>за особу</p>
+                            <a asp-controller="Booking" asp-action="Details" asp-route-id="1" class="book-btn">
+                                Забронювати
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flight-footer">
+                        <span>@Model.FlightDate.ToString("dd MMMM yyyy")</span>
+                        <span>Економ</span>
+                        <span>12 місць</span>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-top">
+                        <div class="airline-box">
+                            <div class="airline-icon">✈</div>
+                            <div>
+                                <h3>Luftreise Airways</h3>
+                                <p>LR 1236</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flight-main">
+                        <div class="flight-time-block">
+                            <h2>14:15</h2>
+                            <p>KBP</p>
+                            <span>@Model.From</span>
+                        </div>
+
+                        <div class="flight-middle">
+                            <div class="flight-line"></div>
+                            <p>3г 15хв</p>
+                            <span>Прямий</span>
+                        </div>
+
+                        <div class="flight-time-block">
+                            <h2>17:30</h2>
+                            <p>CDG</p>
+                            <span>@Model.To</span>
+                        </div>
+
+                        <div class="flight-price">
+                            <h2>349 €</h2>
+                            <p>за особу</p>
+                            <a asp-controller="Booking" asp-action="Details" asp-route-id="2" class="book-btn">
+                                Забронювати
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flight-footer">
+                        <span>@Model.FlightDate.ToString("dd MMMM yyyy")</span>
+                        <span>Бізнес</span>
+                        <span>8 місць</span>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-top">
+                        <div class="airline-box">
+                            <div class="airline-icon">✈</div>
+                            <div>
+                                <h3>Luftreise Airways</h3>
+                                <p>LR 1240</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flight-main">
+                        <div class="flight-time-block">
+                            <h2>18:50</h2>
+                            <p>KBP</p>
+                            <span>@Model.From</span>
+                        </div>
+
+                        <div class="flight-middle">
+                            <div class="flight-line"></div>
+                            <p>3г 10хв</p>
+                            <span>Прямий</span>
+                        </div>
+
+                        <div class="flight-time-block">
+                            <h2>22:00</h2>
+                            <p>CDG</p>
+                            <span>@Model.To</span>
+                        </div>
+
+                        <div class="flight-price">
+                            <h2>389 €</h2>
+                            <p>за особу</p>
+                            <a asp-controller="Booking" asp-action="Details" asp-route-id="3" class="book-btn">
+                                Забронювати
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flight-footer">
+                        <span>@Model.FlightDate.ToString("dd MMMM yyyy")</span>
+                        <span>Перший клас</span>
+                        <span>5 місць</span>
+                    </div>
+                </div>
+
+                <div class="flight-card">
+                    <div class="flight-top">
+                        <div class="airline-box">
+                            <div class="airline-icon">✈</div>
+                            <div>
+                                <h3>Luftreise Airways</h3>
+                                <p>LR 1245</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flight-main">
+                        <div class="flight-time-block">
+                            <h2>21:10</h2>
+                            <p>KBP</p>
+                            <span>@Model.From</span>
+                        </div>
+
+                        <div class="flight-middle">
+                            <div class="flight-line"></div>
+                            <p>3г 20хв</p>
+                            <span>Прямий</span>
+                        </div>
+
+                        <div class="flight-time-block">
+                            <h2>00:30</h2>
+                            <p>CDG</p>
+                            <span>@Model.To</span>
+                        </div>
+
+                        <div class="flight-price">
+                            <h2>259 €</h2>
+                            <p>за особу</p>
+                            <a asp-controller="Booking" asp-action="Details" asp-route-id="4" class="book-btn">
+                                Забронювати
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flight-footer">
+                        <span>@Model.FlightDate.ToString("dd MMMM yyyy")</span>
+                        <span>Економ</span>
+                        <span>16 місць</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        const priceRange = document.getElementById("priceRange");
+        const priceValue = document.getElementById("priceValue");
+
+        if (priceRange && priceValue) {
+            priceRange.addEventListener("input", function () {
+                priceValue.textContent = this.value;
+            });
+        }
+    </script>
+}

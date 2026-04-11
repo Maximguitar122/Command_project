@@ -15,16 +15,21 @@ namespace Luftreise_Command_project_.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult Search(SearchModels model)
-        {
-            return Content($"From: {model.From}, To {model.To}, Date: {model.FlightDate}");
-        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+        [HttpPost]
+        public IActionResult Search(SearchModels model) {
+            ViewBag.From = model.From;
+            ViewBag.To = model.To;
+            ViewBag.Date = model.FlightDate.ToString("yyyy-MM-dd");
+            return View("Flights");
         }
     }
 }

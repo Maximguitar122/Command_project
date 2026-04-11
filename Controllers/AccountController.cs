@@ -13,16 +13,21 @@ namespace Luftreise_Command_project_.Controllers
             _environment = environment;
         }
 
-        
-        
-        
-        
-        
+
+
+
+
+
         [HttpGet]
         public IActionResult Login()
         {
             return View(new LoginModel());
         }
+
+
+
+
+
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
