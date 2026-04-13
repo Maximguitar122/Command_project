@@ -2509,3 +2509,624 @@ img.profile-avatar {
         margin-bottom: 22px;
     }
 }
+
+
+/* =========================
+   AIRPORT PAYMENT PAGE
+   ========================= */
+
+.airport-payment-page {
+    min-height: calc(100vh - 80px);
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.airport-payment-card {
+    width: 100%;
+    max-width: 620px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 38px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    text-align: center;
+}
+
+    /* titles */
+    .airport-payment-card h1 {
+        margin: 0 0 16px;
+        font-size: clamp(30px, 4vw, 42px);
+        line-height: 1.15;
+        font-weight: 800;
+        color: #111827;
+    }
+
+
+
+/* info box */
+.payment-info {
+    text-align: left;
+    background: #f8fafc;
+    border: 1px solid #eef2f7;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+    .payment-info p {
+        margin: 10px 0;
+        font-size: 15px;
+        color: #334155;
+        line-height: 1.5;
+    }
+
+    .payment-info strong {
+        color: #111827;
+    }
+
+/* notice */
+.notice {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* buttons */
+.continue-btn,
+.home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+    .continue-btn:hover,
+    .home-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+    .continue-btn:active,
+    .home-btn:active {
+        transform: translateY(0);
+    }
+
+/* success block */
+.success-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #16a34a;
+    font-size: 40px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.booking-number {
+    margin: 10px 0 0;
+    font-size: 34px;
+    font-weight: 800;
+    color: #2563eb;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* animation */
+#stepTwo {
+    animation: fadeInUp 0.35s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .airport-payment-page {
+        padding: 24px 14px;
+        align-items: flex-start;
+    }
+
+    .airport-payment-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+    .subtitle {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .payment-info {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+        .payment-info p {
+            font-size: 14px;
+        }
+
+    .continue-btn,
+    .home-btn {
+        height: 48px;
+        border-radius: 12px;
+        font-size: 15px;
+    }
+
+    .booking-number {
+        font-size: 28px;
+    }
+
+    .success-icon {
+        width: 64px;
+        height: 64px;
+        font-size: 34px;
+    }
+}
+
+
+/* =========================
+   AIRPORT PAYMENT PAGE
+   ========================= */
+
+.airport-payment-page {
+    min-height: calc(100vh - 80px);
+    background: #f8fafc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.airport-payment-card {
+    width: 100%;
+    max-width: 640px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    padding: 38px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    text-align: center;
+}
+
+    /* Titles */
+    .airport-payment-card h1 {
+        margin: 0 0 16px;
+        font-size: clamp(30px, 4vw, 42px);
+        line-height: 1.15;
+        font-weight: 800;
+        color: #111827;
+    }
+
+
+
+/* Info box */
+.payment-info {
+    text-align: left;
+    background: #f8fafc;
+    border: 1px solid #eef2f7;
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+    .payment-info p {
+        margin: 10px 0;
+        font-size: 15px;
+        color: #334155;
+        line-height: 1.5;
+    }
+
+    .payment-info strong {
+        color: #111827;
+        font-weight: 700;
+    }
+
+    /* Seat highlight */
+    .payment-info p:last-child {
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        border-radius: 12px;
+        padding: 12px 14px;
+        color: #1d4ed8;
+        font-weight: 700;
+    }
+
+/* Notice */
+.notice {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* Buttons */
+.continue-btn,
+.home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .continue-btn:hover,
+    .home-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+    .continue-btn:active,
+    .home-btn:active {
+        transform: translateY(0);
+    }
+
+/* Success icon */
+.success-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #16a34a;
+    font-size: 40px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+/* Booking number */
+.booking-number {
+    margin: 10px 0 0;
+    font-size: 34px;
+    font-weight: 800;
+    color: #2563eb;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* Animation */
+#stepTwo {
+    animation: fadeInUp 0.35s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .airport-payment-page {
+        padding: 24px 14px;
+        align-items: flex-start;
+    }
+
+    .airport-payment-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+
+
+
+    .payment-info {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+        .payment-info p {
+            font-size: 14px;
+        }
+
+    .continue-btn,
+    .home-btn {
+        height: 48px;
+        border-radius: 12px;
+        font-size: 15px;
+    }
+
+    .booking-number {
+        font-size: 28px;
+    }
+
+    .success-icon {
+        width: 64px;
+        height: 64px;
+        font-size: 34px;
+    }
+}
+
+
+
+.ticket-card {
+    position: relative;
+    background: linear-gradient(135deg, #0b1220 0%, #132a63 55%, #2563eb 100%);
+    border-radius: 26px;
+    padding: 28px;
+    margin: 20px 0;
+    color: #fff;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.24);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .ticket-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 28px 55px rgba(0, 0, 0, 0.32);
+    }
+
+    .ticket-card::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 70%);
+        pointer-events: none;
+    }
+
+    .ticket-card::after {
+        content: "";
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        bottom: 72px;
+        border-bottom: 2px dashed rgba(255, 255, 255, 0.18);
+        pointer-events: none;
+    }
+
+    .ticket-card p {
+        margin: 0 0 12px;
+        position: relative;
+        z-index: 1;
+    }
+
+        .ticket-card p:first-child {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.8px;
+        }
+
+        .ticket-card p:nth-child(2) {
+            display: inline-block;
+            width: 32%;
+            font-size: 15px;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .ticket-card p:nth-child(3) {
+            display: inline-block;
+            width: 32%;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .ticket-card p:nth-child(4) {
+            display: inline-block;
+            width: 32%;
+            text-align: right;
+            font-size: 28px;
+            font-weight: 800;
+            color: #facc15;
+            margin-bottom: 0;
+        }
+
+@media (max-width: 768px) {
+    .ticket-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+        .ticket-card::after {
+            left: 20px;
+            right: 20px;
+            bottom: 84px;
+        }
+
+        .ticket-card p:first-child {
+            font-size: 24px;
+        }
+
+        .ticket-card p:nth-child(2),
+        .ticket-card p:nth-child(3),
+        .ticket-card p:nth-child(4) {
+            display: block;
+            width: 100%;
+            text-align: left;
+        }
+
+        .ticket-card p:nth-child(4) {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+}
+
+.write {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 34px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 45px 0 24px;
+    letter-spacing: -0.8px;
+    padding-bottom: 10px;
+}
+
+    .write::before {
+        content: "✈";
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #2563eb, #60a5fa);
+        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+        font-size: 22px;
+    }
+
+    .write::after {
+        content: "";
+        position: absolute;
+        left: 66px;
+        right: 0;
+        bottom: 0;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #2563eb, #60a5fa, transparent);
+    }
+
+@media (max-width: 768px) {
+    .write {
+        font-size: 26px;
+        gap: 10px;
+        margin: 30px 0 18px;
+    }
+
+        .write::before {
+            width: 42px;
+            height: 42px;
+            font-size: 18px;
+            border-radius: 12px;
+        }
+
+        .write::after {
+            left: 52px;
+        }
+}
+
+.no-bookings-card {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin: 30px 0;
+    padding: 28px 30px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(96, 165, 250, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(10px);
+}
+
+.no-bookings-icon {
+    min-width: 72px;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #60a5fa);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+}
+
+.no-bookings-content h3 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.no-bookings-content p {
+    margin: 0 0 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 520px;
+}
+
+.no-bookings-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb, #4f86ff);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+    transition: 0.25s ease;
+}
+
+    .no-bookings-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 30px rgba(37, 99, 235, 0.35);
+    }
+
+@media (max-width: 768px) {
+    .no-bookings-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px;
+    }
+
+    .no-bookings-content h3 {
+        font-size: 22px;
+    }
+
+    .no-bookings-content p {
+        font-size: 15px;
+    }
+}

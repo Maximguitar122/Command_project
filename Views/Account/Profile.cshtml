@@ -3,7 +3,36 @@
 @{
     ViewData["Title"] = "Profile";
     var firstLetter = !string.IsNullOrEmpty(Model.FullName) ? Model.FullName.Substring(0, 1).ToUpper() : "U";
+    
+    var tickets = ViewBag.Tickets as List<Luftreise_Command_project_.Models.BookingTicket>;
 }
+@if (tickets != null && tickets.Count > 0)
+{
+    <h2 class="write">Мої бронювання</h2>
+
+    @foreach (var item in tickets)
+    {
+        <div class="ticket-card">
+            <p>@item.FromCity → @item.ToCity</p>
+            <p>@item.FlightDate.ToShortDateString()</p>
+            <p>@item.Airline</p>
+            <p>@item.Price ₴</p>
+        </div>
+    }
+}
+else
+{
+    <div class="no-bookings-card">
+        <div class="no-bookings-icon">✈</div>
+        <div class="no-bookings-content">
+            <h3>У вас ще немає бронювань</h3>
+            <p>Після оформлення квитка тут з’явиться інформація про ваші перельоти.</p>
+            <a asp-controller="Home" asp-action="Index" class="no-bookings-btn">Знайти рейс</a>
+        </div>
+    </div>
+}
+
+
 
 <section class="profile-page">
     <div class="profile-wrapper">
@@ -94,9 +123,13 @@
                   style="margin-top: 14px;">
                 <button type="submit" class="auth-btn delete-btn">Видалити акаунт</button>
             </form>
+
+
+
         </div>
     </div>
 </section>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

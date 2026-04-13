@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Luftreise_Command_project_.Data;
 using Luftreise_Command_project_.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Sockets;
 
 namespace Luftreise_Command_project_.Controllers
 {
@@ -47,23 +49,62 @@ namespace Luftreise_Command_project_.Controllers
             return View("Booking", model);
         }
 
-        [HttpPost]
-        public IActionResult Booking(BookingViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
 
-            return RedirectToAction("Pay", model); 
-
-        }
-
-
-       
 
         [HttpGet]
         public IActionResult AirportPayment(BookingViewModel model)
         {
             return View(model);
         }
+
+
+        [HttpPost]
+        public IActionResult Booking(BookingViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+
+            if (string.IsNullOrEmpty(userEmail))
+                return RedirectToAction("Login", "Account");
+
+            var ticket = new BookingTicket
+            {
+                Id = BookingStore.GetAllTickets().Count + 1,
+                BookingNumber = "LR" + DateTime.Now.Ticks.ToString().Substring(10),
+                UserEmail = userEmail,
+
+                Airline = model.Airline,
+                FlightNumber = model.FlightNumber,
+                FromCity = model.FromCity,
+                ToCity = model.ToCity,
+                DepartureTime = model.DepartureTime,
+                ArrivalTime = model.ArrivalTime,
+                FlightDate = model.FlightDate,
+                FlightClass = model.FlightClass,
+                Price = (double)model.Price,
+
+                PassportNumber = model.PassportNumber,
+                BaggageWeight = model.BaggageWeight
+            };
+
+            BookingStore.AddTicket(ticket);
+
+            return View("AirportPayment", model);
+        }
+
+     
+
+
+      
+        
+
+
+
+
+
+
+
     }
 }

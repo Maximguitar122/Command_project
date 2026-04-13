@@ -285,22 +285,12 @@ namespace Luftreise_Command_project_.Controllers
             var sessionEmail = HttpContext.Session.GetString("UserEmail");
 
             if (string.IsNullOrEmpty(sessionEmail))
-            {
-                var cookieEmail = Request.Cookies["UserEmail"];
-
-                if (!string.IsNullOrEmpty(cookieEmail))
-                {
-                    sessionEmail = cookieEmail;
-                    HttpContext.Session.SetString("UserEmail", sessionEmail);
-                }
-            }
-
-            if (string.IsNullOrEmpty(sessionEmail))
                 return RedirectToAction("Login");
 
             var currentUser = UserStore.GetUserByEmail(sessionEmail);
-            if (currentUser == null)
-                return RedirectToAction("Login");
+
+            var tickets = BookingStore.GetTicketsByEmail(sessionEmail);
+            ViewBag.Tickets = tickets;
 
             return View(currentUser);
         }
