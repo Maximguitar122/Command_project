@@ -1,0 +1,76 @@
+﻿@model Luftreise_Command_project_.Models.BookingViewModel
+
+@{
+    ViewData["Title"] = "Оплата в аеропорті";
+}
+
+<div class="airport-payment-page">
+    <div class="airport-payment-card">
+
+        
+        <div id="stepOne">
+
+            <h1>Оплата в аеропорті</h1>
+
+            <p class="subtitle">
+                Ваше бронювання майже готове.
+                Оплата буде здійснюватися безпосередньо в аеропорті перед посадкою.
+            </p>
+
+            <div class="payment-info">
+                <p><strong>Пасажир:</strong> @Model.FirstName @Model.LastName</p>
+                <p><strong>Маршрут:</strong> @Model.FromCity → @Model.ToCity</p>
+                <p><strong>Рейс:</strong> @Model.FlightNumber</p>
+                <p><strong>Дата:</strong> @Model.FlightDate.ToString("dd.MM.yyyy")</p>
+                <p><strong>Клас:</strong> @Model.FlightClass</p>
+                <p><strong>Місце:</strong> A12</p>
+                <p><strong>Ціна:</strong> @Model.Price €</p>
+            </div>
+
+            <div class="notice">
+                Будь ласка, прибудьте в аеропорт за 2 години до вильоту.
+            </div>
+
+            <button class="continue-btn" onclick="showSuccess()">
+                Продовжити
+            </button>
+        </div>
+
+
+        
+        <div id="stepTwo" style="display:none;">
+
+            <div class="success-icon">✓</div>
+
+            <h1>Бронювання підтверджено!</h1>
+
+            <p class="subtitle">
+                Ваш квиток на рейс @Model.FlightNumber успішно заброньовано.
+                Підтвердження надіслано на вказану електронну адресу.
+            </p>
+
+            <div class="payment-info">
+                <p><strong>Номер бронювання:</strong></p>
+                <h2 class="booking-number">
+                    LR-@DateTime.Now.ToString("HHmmss")
+                </h2>
+
+         
+            </div>
+
+            <a asp-controller="Home" asp-action="Index" class="home-btn">
+                На головну
+            </a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showSuccess() {
+            document.getElementById("stepOne").style.display = "none";
+            document.getElementById("stepTwo").style.display = "block";
+        }
+    </script>
+}

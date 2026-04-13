@@ -1,0 +1,28 @@
+﻿@model Luftreise_Command_project_.Models.BookingTicket
+
+@{
+    ViewData["Title"] = "Деталі бронювання";
+}
+
+<div style="max-width:900px; margin:30px auto; background:#fff; border:1px solid #e5e7eb; border-radius:20px; padding:24px;">
+    <h1>Деталі бронювання</h1>
+
+    <p><strong>Номер бронювання:</strong> @Model.BookingNumber</p>
+    <p><strong>Пасажир:</strong> @Model.PassengerName</p>
+    <p><strong>Авіакомпанія:</strong> @Model.Airline</p>
+    <p><strong>Рейс:</strong> @Model.FlightNumber</p>
+    <p><strong>Маршрут:</strong> @Model.FromCity → @Model.ToCity</p>
+    <p><strong>Виліт:</strong> @Model.DepartureTime</p>
+    <p><strong>Приліт:</strong> @Model.ArrivalTime</p>
+    <p><strong>Дата:</strong> @Model.FlightDate.ToString("dd.MM.yyyy")</p>
+    <p><strong>Клас:</strong> @Model.FlightClass</p>
+    <p><strong>Місце:</strong> @Model.SeatNumber</p>
+    <p><strong>Багаж:</strong> @(Model.BaggageWeight == 0 ? "Ручна поклажа" : Model.BaggageWeight + " кг")</p>
+    <p><strong>Статус:</strong> @Model.Status</p>
+    <p><strong>Ціна:</strong> @Model.Price €</p>
+
+    <a asp-controller="Account" asp-action="Profile"
+       style="display:inline-block; margin-top:16px; padding:10px 16px; border-radius:10px; background:#2563eb; color:white; text-decoration:none;">
+        Назад у профіль
+    </a>
+</div>
