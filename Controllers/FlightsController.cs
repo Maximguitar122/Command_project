@@ -43,7 +43,7 @@ namespace Luftreise_Command_project_.Controllers
                 ArrivalTime = arrivalTime,
                 FlightDate = flightDate,
                 FlightClass = flightClass,
-                Price = price
+             //   Price = price
             };
 
             return View("Booking", model);

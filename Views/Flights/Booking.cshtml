@@ -90,11 +90,27 @@
                    
                     </div>
 
+                   
+
                     <div class="booking-note">
                         <span class="booking-note__icon">ⓘ</span>
                         <span>Переконайтеся, що всі дані співпадають з вашим паспортом</span>
                     </div>
-
+                    <div class="booking-field full">
+                        <label asp-for="SeatNumber">Місце</label>
+                        <select asp-for="SeatNumber" style="width:100%; height:46px; border:1px solid #e5e7eb; border-radius:12px; background:#f3f4f6; padding:0 16px; font-size:15px; color:#334155; outline:none;">
+                            <option value="A12">A12</option>
+                            <option value="A13">A13</option>
+                            <option value="A14">A14</option>
+                            <option value="B12">B12</option>
+                            <option value="B13">B13</option>
+                            <option value="B14">B14</option>
+                            <option value="C12">C12</option>
+                            <option value="C13">C13</option>
+                            <option value="C14">C14</option>
+                        </select>
+                        <span asp-validation-for="SeatNumber"></span>
+                    </div>
                     <button type="submit" class="booking-submit">Продовжити</button>
                 </form>
             </div>
