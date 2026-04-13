@@ -1,38 +1,59 @@
 ﻿@model Luftreise_Command_project_.Models.User
+@using Luftreise_Command_project_.Models
 
 @{
     ViewData["Title"] = "Profile";
-    var firstLetter = !string.IsNullOrEmpty(Model.FullName) ? Model.FullName.Substring(0, 1).ToUpper() : "U";
-    
-    var tickets = ViewBag.Tickets as List<Luftreise_Command_project_.Models.BookingTicket>;
-}
-@if (tickets != null && tickets.Count > 0)
-{
-    <h2 class="write">Мої бронювання</h2>
 
-    @foreach (var item in tickets)
-    {
-        <div class="ticket-card">
-            <p>@item.FromCity → @item.ToCity</p>
-            <p>@item.FlightDate.ToShortDateString()</p>
-            <p>@item.Airline</p>
-            <p>@item.Price ₴</p>
-        </div>
-    }
+    var firstLetter = !string.IsNullOrEmpty(Model.FullName)
+        ? Model.FullName.Substring(0, 1).ToUpper()
+        : "U";
+
+    var bookings = ViewBag.Bookings as List<BookingTicket>;
+}
+@if (bookings != null && bookings.Any())
+{
+    <div style="margin-top:30px;">
+        <h2 style="margin-bottom:16px;">Мої квитки</h2>
+
+        @foreach (var ticket in bookings)
+        {
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px; margin-bottom:14px;">
+                <p><strong>Номер бронювання:</strong> @ticket.BookingNumber</p>
+                <p><strong>Маршрут:</strong> @ticket.FromCity → @ticket.ToCity</p>
+                <p><strong>Рейс:</strong> @ticket.FlightNumber</p>
+                <p><strong>Дата:</strong> @ticket.FlightDate.ToString("dd.MM.yyyy")</p>
+                <p><strong>Місце:</strong> @ticket.SeatNumber</p>
+                <p><strong>Багаж:</strong> @(ticket.BaggageWeight == 0 ? "Ручна поклажа" : ticket.BaggageWeight + " кг")</p>
+                <p><strong>Статус:</strong> @ticket.Status</p>
+                <p><strong>Ціна:</strong> @ticket.Price €</p>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                    <a asp-controller="Flights" asp-action="BookingDetails" asp-route-id="@ticket.Id"
+                       style="display:inline-block; padding:10px 16px; border-radius:10px; background:#2563eb; color:white; text-decoration:none;">
+                        Деталі
+                    </a>
+
+                    @if (ticket.Status != "Скасовано")
+                    {
+                        <form asp-controller="Flights" asp-action="CancelBooking" asp-route-id="@ticket.Id" method="post" style="display:inline;">
+                            <button type="submit"
+                                    style="padding:10px 16px; border:none; border-radius:10px; background:#ef4444; color:white; cursor:pointer;">
+                                Скасувати
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 }
 else
 {
-    <div class="no-bookings-card">
-        <div class="no-bookings-icon">✈</div>
-        <div class="no-bookings-content">
-            <h3>У вас ще немає бронювань</h3>
-            <p>Після оформлення квитка тут з’явиться інформація про ваші перельоти.</p>
-            <a asp-controller="Home" asp-action="Index" class="no-bookings-btn">Знайти рейс</a>
-        </div>
+    <div style="margin-top:30px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px;">
+        <h2 style="margin-top:0;">Мої квитки</h2>
+        <p>У вас ще немає бронювань.</p>
     </div>
 }
-
-
 
 <section class="profile-page">
     <div class="profile-wrapper">
@@ -128,6 +149,8 @@ else
 
         </div>
     </div>
+
+
 </section>
 
 

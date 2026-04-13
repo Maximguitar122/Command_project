@@ -7,7 +7,7 @@
 <div class="airport-payment-page">
     <div class="airport-payment-card">
 
-       
+        
         <div id="stepOne">
 
             <h1>Оплата в аеропорті</h1>
@@ -22,6 +22,8 @@
                 <p><strong>Маршрут:</strong> @Model.FromCity → @Model.ToCity</p>
                 <p><strong>Рейс:</strong> @Model.FlightNumber</p>
                 <p><strong>Дата:</strong> @Model.FlightDate.ToString("dd.MM.yyyy")</p>
+                <p><strong>Клас:</strong> @Model.FlightClass</p>
+                <p><strong>Місце:</strong> A12</p>
                 <p><strong>Ціна:</strong> @Model.Price €</p>
             </div>
 
@@ -35,6 +37,7 @@
         </div>
 
 
+        
         <div id="stepTwo" style="display:none;">
 
             <div class="success-icon">✓</div>
