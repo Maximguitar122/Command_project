@@ -9,6 +9,8 @@
         : "U";
 
     var bookings = ViewBag.Bookings as List<BookingTicket>;
+    var tickets = ViewBag.Tickets as List<BookingTicket>;
+
 }
 @if (bookings != null && bookings.Any())
 {
@@ -52,6 +54,32 @@ else
     <div style="margin-top:30px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px;">
         <h2 style="margin-top:0;">Мої квитки</h2>
         <p>У вас ще немає бронювань.</p>
+    </div>
+}
+
+@if (tickets != null && tickets.Count > 0)
+{
+    <h2 class="write">Мої бронювання</h2>
+
+    @foreach (var item in tickets)
+    {
+        <div class="ticket-card">
+            <p>@item.FromCity → @item.ToCity</p>
+            <p>@item.FlightDate.ToShortDateString()</p>
+            <p>@item.Airline</p>
+            <p>@item.Price ₴</p>
+        </div>
+    }
+}
+else
+{
+    <div class="no-bookings-card">
+        <div class="no-bookings-icon">✈</div>
+        <div class="no-bookings-content">
+            <h3>У вас ще немає бронювань</h3>
+            <p>Після оформлення квитка тут з’явиться інформація про ваші перельоти.</p>
+            <a asp-controller="Home" asp-action="Index" class="no-bookings-btn">Знайти рейс</a>
+        </div>
     </div>
 }
 

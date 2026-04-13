@@ -27,6 +27,7 @@ namespace Luftreise_Command_project_.Controllers
             string flightClass,
             double price)
         {
+            var userEmail = HttpContext.Session.GetString("UserEmail");
             var model = new BookingViewModel
             {
                 FlightId = id,
@@ -38,7 +39,8 @@ namespace Luftreise_Command_project_.Controllers
                 ArrivalTime = arrivalTime,
                 FlightDate = flightDate,
                 FlightClass = flightClass,
-             //   Price = price
+                Email = userEmail,
+                //   Price = price
             };
 
             return View(model);
@@ -59,8 +61,41 @@ namespace Luftreise_Command_project_.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            return RedirectToAction("Pay", model); 
+            var userEmail = HttpContext.Session.GetString("UserEmail");
 
+            if (string.IsNullOrEmpty(userEmail))
+                return RedirectToAction("Login", "Account");
+
+            var ticket = new BookingTicket
+            {
+                Id = BookingStore.GetAllTickets().Count + 1,
+                BookingNumber = "LR" + DateTime.Now.Ticks.ToString().Substring(10),
+                UserEmail = userEmail,
+
+                Airline = model.Airline,
+                FlightNumber = model.FlightNumber,
+                FromCity = model.FromCity,
+                ToCity = model.ToCity,
+                DepartureTime = model.DepartureTime,
+                ArrivalTime = model.ArrivalTime,
+                FlightDate = model.FlightDate,
+                FlightClass = model.FlightClass,
+                Price = (double)model.Price,
+
+                PassportNumber = model.PassportNumber,
+                BaggageWeight = model.BaggageWeight
+            };
+
+            BookingStore.AddTicket(ticket);
+
+            return View("AirportPayment", model);
+        }
+
+
+        [HttpPost]
+        public IActionResult Search(SearchModels model)
+        {
+            return View("Flights", model);
         }
 
     }

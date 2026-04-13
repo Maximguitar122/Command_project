@@ -21,7 +21,21 @@ namespace Luftreise_Command_project_.Data
                 Password = "admin123",
                 ConfirmPassword = "admin123",
                 IsAdmin = true
+            },
+              new User
+            {
+                Id = 1,
+                FullName = "Admin",
+                Email = "maxzalyga@gmail.com",
+                Phone = "+380000000000",
+                City = "Uzhhorod",
+                Country = "Ukraine",
+                BirthDate = new DateTime(2000, 1, 1),
+                Password = "12345678",
+                ConfirmPassword = "12345678",
+                IsAdmin = false
             }
+
         };
 
       
