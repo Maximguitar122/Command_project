@@ -22,7 +22,7 @@
         <nav class="nav">
             <a href="/" class="active">Головна</a>
             <a href="@Url.Action("Index", "Home")#popularFlights">Рейси</a>
-            <a href="#">Про нас</a>
+                <a href="@Url.Action("Index", "Home")#info-section">Про нас</a>
         </nav>
             <div class="profile">
                 @if (Context.Session.GetString("UserEmail") != null)
