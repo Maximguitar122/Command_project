@@ -1,0 +1,57 @@
+@model IEnumerable<Luftreise.Application.DTOs.FlightDto>
+
+@{
+    ViewData["Title"] = "Результати пошуку";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Доступні рейси</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <h4>Рейсів не знайдено</h4>
+            <p>Спробуйте змінити параметри пошуку.</p>
+            <a asp-action="Search" class="btn btn-primary">Повернутися до пошуку</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var flight in Model)
+            {
+                <div class="col-md-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <h5 class="mb-0">@flight.FlightNumber</h5>
+                                    <small class="text-muted">@flight.AirlineName</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>@flight.DepartureTime.ToString("HH:mm")</strong>
+                                    <p class="mb-0 text-muted">@flight.DepartureAirport</p>
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <i class="bi bi-arrow-right"></i>
+                                    <p class="mb-0 text-muted small">
+                                        @((flight.ArrivalTime - flight.DepartureTime).Hours)г @((flight.ArrivalTime - flight.DepartureTime).Minutes)хв
+                                    </p>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>@flight.ArrivalTime.ToString("HH:mm")</strong>
+                                    <p class="mb-0 text-muted">@flight.ArrivalAirport</p>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <h4 class="text-primary mb-1">@flight.Price.ToString("C")</h4>
+                                    <p class="mb-2 text-muted small">@flight.AvailableSeats місць</p>
+                                    <a asp-controller="Bookings" asp-action="Create" asp-route-flightId="@flight.Id" class="btn btn-primary btn-sm">Забронювати</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

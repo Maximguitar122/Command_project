@@ -1,0 +1,18 @@
+@model int
+
+@{
+    ViewData["Title"] = "Підтвердження бронювання";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-success text-center">
+                <h2>Бронювання успішно створено!</h2>
+                <p class="lead">Номер вашого бронювання: <strong>@Model</strong></p>
+                <p>Деталі бронювання надіслано на вашу електронну пошту.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Повернутися на головну</a>
+            </div>
+        </div>
+    </div>
+</div>

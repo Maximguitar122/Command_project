@@ -1,0 +1,53 @@
+@model Luftreise.Application.DTOs.FlightSearchDto
+
+@{
+    ViewData["Title"] = "Пошук авіарейсів";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Знайдіть свій ідеальний рейс</h2>
+
+                    <form asp-action="Search" method="post">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="DepartureCity" class="form-label">Місто вильоту</label>
+                                <input asp-for="DepartureCity" class="form-control" placeholder="Наприклад: Одеса" />
+                                <span asp-validation-for="DepartureCity" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ArrivalCity" class="form-label">Місто прибуття</label>
+                                <input asp-for="ArrivalCity" class="form-control" placeholder="Наприклад: Київ" />
+                                <span asp-validation-for="ArrivalCity" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="DepartureDate" class="form-label">Дата вильоту</label>
+                                <input asp-for="DepartureDate" type="date" class="form-control" />
+                                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Passengers" class="form-label">Кількість пасажирів</label>
+                                <input asp-for="Passengers" type="number" min="1" max="9" class="form-control" value="1" />
+                                <span asp-validation-for="Passengers" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Знайти рейси</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
