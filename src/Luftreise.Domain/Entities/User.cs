@@ -1,3 +1,5 @@
+using Luftreise.Domain.Enums;
+
 namespace Luftreise.Domain.Entities;
 
 public class User
@@ -11,4 +13,8 @@ public class User
     public DateTime CreatedAt { get; set; }
     public UserRole Role { get; set; }
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+    public string? AvatarPath { get; set; }
+    public string? City { get; set; }
+    public string? Country { get; set; }
+    public DateTime? BirthDate { get; set; }
 }

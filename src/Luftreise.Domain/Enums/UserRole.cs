@@ -1,4 +1,4 @@
-namespace Luftreise.Domain.Entities;
+namespace Luftreise.Domain.Enums;
 
 public enum UserRole
 {

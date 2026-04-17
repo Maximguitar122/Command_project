@@ -1,13 +1,18 @@
-﻿using Luftreise_Command_project_.Data;
+﻿using Luftreise.Application.Interfaces;
 using Luftreise_Command_project_.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Sockets;
 
 namespace Luftreise_Command_project_.Controllers
 {
     public class FlightsController : Controller
     {
+        private readonly IBookingRepository _bookingRepository;
+
+        public FlightsController(IBookingRepository bookingRepository)
+        {
+            _bookingRepository = bookingRepository;
+        }
+
         [HttpGet]
         public IActionResult Flights()
         {
@@ -28,6 +33,7 @@ namespace Luftreise_Command_project_.Controllers
             double price)
         {
             var userEmail = HttpContext.Session.GetString("UserEmail");
+
             var model = new BookingViewModel
             {
                 FlightId = id,
@@ -39,21 +45,18 @@ namespace Luftreise_Command_project_.Controllers
                 ArrivalTime = arrivalTime,
                 FlightDate = flightDate,
                 FlightClass = flightClass,
-                Email = userEmail,
-                //   Price = price
+                Email = userEmail
+                // Price = price
             };
 
             return View(model);
         }
-
-
 
         [HttpGet]
         public IActionResult AirportPayment(BookingViewModel model)
         {
             return View(model);
         }
-
 
         [HttpPost]
         public IActionResult Booking(BookingViewModel model)
@@ -66,37 +69,13 @@ namespace Luftreise_Command_project_.Controllers
             if (string.IsNullOrEmpty(userEmail))
                 return RedirectToAction("Login", "Account");
 
-            var ticket = new BookingTicket
-            {
-                Id = BookingStore.GetAllTickets().Count + 1,
-                BookingNumber = "LR" + DateTime.Now.Ticks.ToString().Substring(10),
-                UserEmail = userEmail,
-
-                Airline = model.Airline,
-                FlightNumber = model.FlightNumber,
-                FromCity = model.FromCity,
-                ToCity = model.ToCity,
-                DepartureTime = model.DepartureTime,
-                ArrivalTime = model.ArrivalTime,
-                FlightDate = model.FlightDate,
-                FlightClass = model.FlightClass,
-                Price = (double)model.Price,
-
-                PassportNumber = model.PassportNumber,
-                BaggageWeight = model.BaggageWeight
-            };
-
-            BookingStore.AddTicket(ticket);
-
             return View("AirportPayment", model);
         }
-
 
         [HttpPost]
         public IActionResult Search(SearchModels model)
         {
             return View("Flights", model);
         }
-
     }
-} 
+}
