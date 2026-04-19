@@ -1,4 +1,4 @@
-﻿@model Luftreise_Command_project_.Models.BookingViewModel
+@model Luftreise_Command_project_.Models.BookingViewModel
 
 @{
     ViewData["Title"] = "Booking";
@@ -33,6 +33,8 @@
 
                 <form asp-action="Booking" asp-controller="Flights" method="post" class="booking-form">
                     <input asp-for="FlightId" type="hidden" />
+                    <input asp-for="FromCity" type="hidden" />
+                    <input asp-for="ToCity" type="hidden" />
                     <input asp-for="Airline" type="hidden" />
                     <input asp-for="FlightNumber" type="hidden" />
                     <input asp-for="DepartureTime" type="hidden" />
@@ -40,6 +42,7 @@
                     <input asp-for="FlightDate" type="hidden" />
                     <input asp-for="FlightClass" type="hidden" />
                     <input asp-for="Price" type="hidden" />
+
 
                     <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
