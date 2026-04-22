@@ -1,4 +1,5 @@
-using Luftreise.Application.Interfaces;
+using Luftreise.Application.DTOs;
+using Luftreise.Application.Services;
 using Luftreise_Command_project_.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -7,19 +8,19 @@ namespace Luftreise_Command_project.Controllers
 {
   public class FlightsController : Controller
   {
-    private readonly IBookingRepository _bookingRepository;
-    private readonly IFlightRepository _flightRepository;
+    private readonly IFlightService _flightService;
+    private readonly IBookingService _bookingService;
 
-    public FlightsController(IBookingRepository bookingRepository, IFlightRepository flightRepository)
+    public FlightsController(IFlightService flightService, IBookingService bookingService)
     {
-      _bookingRepository = bookingRepository;
-      _flightRepository = flightRepository;
+      _flightService = flightService;
+      _bookingService = bookingService;
     }
 
     [HttpGet]
     public IActionResult Flights()
     {
-      return View(new List<Luftreise.Domain.Entities.Flight>());
+      return View(new List<FlightDto>());
     }
 
     [HttpGet]
@@ -78,10 +79,14 @@ namespace Luftreise_Command_project.Controllers
     [HttpPost]
     public async Task<IActionResult> Search(SearchModels model)
     {
-      var flights = await _flightRepository.SearchFlightsAsync(
-          model.From,
-          model.To,
-          model.FlightDate);
+      var searchDto = new FlightSearchDto
+      {
+        DepartureCity = model.From,
+        ArrivalCity = model.To,
+        DepartureDate = model.FlightDate
+      };
+
+      var flights = await _flightService.SearchFlightsAsync(searchDto);
 
       return View("Flights", flights);
     }

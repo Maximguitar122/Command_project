@@ -9,17 +9,16 @@ namespace Luftreise.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddDbContext<LuftreiseDbContext>(options =>
-            options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection"),
-                x => x.UseNetTopologySuite()));
+  public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+  {
+    services.AddDbContext<LuftreiseDbContext>(options =>
+        options.UseSqlServer(
+            configuration.GetConnectionString("DefaultConnection"),
+            x => x.UseNetTopologySuite()));
 
-        services.AddScoped<IFlightRepository, FlightRepository>();
-        services.AddScoped<IBookingRepository, BookingRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+    services.AddScoped<IFlightRepository, FlightRepository>();
+    services.AddScoped<IBookingRepository, BookingRepository>();
 
-        return services;
-    }
+    return services;
+  }
 }

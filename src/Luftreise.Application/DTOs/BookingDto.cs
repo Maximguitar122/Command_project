@@ -9,4 +9,5 @@ public class BookingDto
     public string Status { get; set; } = string.Empty;
     public decimal TotalPrice { get; set; }
     public int NumberOfPassengers { get; set; }
+  
 }
