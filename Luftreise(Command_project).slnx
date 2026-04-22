@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Luftreise(Command_project).csproj" />
+  <Project Path="src/Luftreise.Application/Luftreise.Application.csproj" />
+  <Project Path="src/Luftreise.Domain/Luftreise.Domain.csproj" />
+  <Project Path="src/Luftreise.Infrastructure/Luftreise.Infrastructure.csproj" />
+</Solution>

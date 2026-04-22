@@ -1,0 +1,246 @@
+@model IEnumerable<Luftreise.Domain.Entities.Flight>
+
+@{
+    ViewData["Title"] = "Рейси";
+
+    var flights = Model?.ToList() ?? new List<Luftreise.Domain.Entities.Flight>();
+    var firstFlight = flights.FirstOrDefault();
+
+    var fromCity = firstFlight?.DepartureAirport?.City ?? "Невідомо";
+    var toCity = firstFlight?.ArrivalAirport?.City ?? "Невідомо";
+    var flightDate = firstFlight?.DepartureTime.Date;
+}
+
+<section class="booking-page">
+    <div class="booking-container">
+
+        <div class="booking-header">
+            <h1>Рейси: @fromCity → @toCity</h1>
+
+            <div class="booking-meta">
+                <p>
+                    Дата:
+                    @(flightDate.HasValue? flightDate.Value.ToString("yyyy-MM-dd") : "Не вказано")
+                    <span class="dot">•</span>
+                    Пасажири:
+                </p>
+
+                <div class="passenger-counter">
+                    <button type="button" id="minusPassengers">−</button>
+                    <span id="passengerCount">1</span>
+                    <button type="button" id="plusPassengers">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-content">
+
+            <aside class="filters-panel">
+                <div class="filters-card">
+                    <h2>Фільтри</h2>
+
+                    <div class="filter-group">
+                        <label for="priceRange">
+                            Максимальна ціна: <span id="priceValue">15000</span> €
+                        </label>
+                        <input type="range" id="priceRange" min="50" max="15000" value="15000" />
+                    </div>
+
+                    <div class="filter-group">
+                        <h3>Клас</h3>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" value="Економ" checked />
+                            <span>Економ</span>
+                        </label>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" value="Бізнес" checked />
+                            <span>Бізнес</span>
+                        </label>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" value="Перший клас" checked />
+                            <span>Перший клас</span>
+                        </label>
+                    </div>
+
+                    <button type="button" class="reset-btn">Скинути фільтри</button>
+                </div>
+            </aside>
+
+            <div class="flights-section">
+                <p class="results-count">Знайдено @flights.Count рейсів</p>
+
+                @if (flights.Any())
+                {
+                    foreach (var flight in flights)
+                    {
+                        var duration = flight.ArrivalTime - flight.DepartureTime;
+                        var totalMinutes = (int)duration.TotalMinutes;
+                        var hours = totalMinutes / 60;
+                        var minutes = totalMinutes % 60;
+
+                        <div class="flight-card" data-base-price="@flight.Price" data-class="@flight.FlightClass">
+                            <div class="flight-top">
+                                <div class="airline-box">
+                                    <div class="airline-icon">✈</div>
+                                    <div>
+                                        <h3>@flight.AirlineName</h3>
+                                        <p>@flight.FlightNumber</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flight-main">
+                                <div class="flight-time-block">
+                                    <h2>@flight.DepartureTime.ToString("HH:mm")</h2>
+                                    <p>@flight.DepartureAirport?.Code</p>
+                                    <span>@flight.DepartureAirport?.City</span>
+                                </div>
+
+                                <div class="flight-middle">
+                                    <div class="flight-line"></div>
+                                    <p>@hours г @minutes хв</p>
+                                    <span>@flight.FlightClass</span>
+                                    <small>@flight.Status</small>
+                                </div>
+
+                                <div class="flight-time-block">
+                                    <h2>@flight.ArrivalTime.ToString("HH:mm")</h2>
+                                    <p>@flight.ArrivalAirport?.Code</p>
+                                    <span>@flight.ArrivalAirport?.City</span>
+                                </div>
+
+                                <div class="flight-price">
+                                    <div class="flight-rating">
+                                        <span class="star active">★</span>
+                                        <span class="star active">★</span>
+                                        <span class="star active">★</span>
+                                        <span class="star active">★</span>
+                                        <span class="star active">★</span>
+                                    </div>
+
+                                    <h2><span class="price-value">@flight.Price</span> €</h2>
+                                    <p>за <span class="passenger-label">1</span> пас.</p>
+
+                                    <a asp-controller="Flights"
+                                       asp-action="Booking"
+                                       asp-route-id="@flight.Id"
+                                       asp-route-airline="@flight.AirlineName"
+                                       asp-route-flightNumber="@flight.FlightNumber"
+                                       asp-route-fromCity="@flight.DepartureAirport?.City"
+                                       asp-route-toCity="@flight.ArrivalAirport?.City"
+                                       asp-route-departureTime="@flight.DepartureTime.ToString("HH:mm")"
+                                       asp-route-arrivalTime="@flight.ArrivalTime.ToString("HH:mm")"
+                                       asp-route-flightDate="@flight.DepartureTime.ToString("yyyy-MM-dd")"
+                                       asp-route-flightClass="@flight.FlightClass"
+                                       asp-route-price="@flight.Price"
+                                       class="booking-btn">
+                                        Забронювати
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="flight-footer">
+                                <span>@flight.DepartureTime.ToString("dd MMMM yyyy")</span>
+                                <span>@flight.FlightClass</span>
+                                <span>@flight.Status</span>
+                                <span>@flight.AvailableSeats місць</span>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="flight-card">
+                        <p>Рейсів не знайдено.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        const priceRange = document.getElementById("priceRange");
+        const priceValue = document.getElementById("priceValue");
+
+        const minusBtn = document.getElementById("minusPassengers");
+        const plusBtn = document.getElementById("plusPassengers");
+        const passengerCountEl = document.getElementById("passengerCount");
+        const resultsCountEl = document.querySelector(".results-count");
+
+        const resetBtn = document.querySelector(".reset-btn");
+        const checkboxes = document.querySelectorAll(".checkbox-row input");
+
+        let passengerCount = 1;
+
+        function updateFlights() {
+            const maxPrice = parseFloat(priceRange.value);
+            priceValue.textContent = maxPrice;
+            passengerCountEl.textContent = passengerCount;
+
+            let visibleCount = 0;
+
+            const selectedClasses = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    selectedClasses.push(cb.value);
+                }
+            });
+
+            document.querySelectorAll(".flight-card[data-base-price]").forEach(card => {
+                const basePrice = parseFloat(card.dataset.basePrice);
+                const totalPrice = basePrice * passengerCount;
+                const flightClass = card.dataset.class;
+
+                const priceValueEl = card.querySelector(".price-value");
+                const passengerLabelEl = card.querySelector(".passenger-label");
+
+                if (priceValueEl) priceValueEl.textContent = totalPrice;
+                if (passengerLabelEl) passengerLabelEl.textContent = passengerCount;
+
+                const priceAllowed = totalPrice <= maxPrice;
+                const classAllowed = selectedClasses.includes(flightClass);
+
+                if (priceAllowed && classAllowed) {
+                    card.style.display = "";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            resultsCountEl.textContent = `Знайдено ${visibleCount} рейсів`;
+        }
+
+        priceRange.addEventListener("input", updateFlights);
+
+        plusBtn.addEventListener("click", function () {
+            passengerCount++;
+            updateFlights();
+        });
+
+        minusBtn.addEventListener("click", function () {
+            if (passengerCount > 1) {
+                passengerCount--;
+                updateFlights();
+            }
+        });
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener("change", updateFlights);
+        });
+
+        resetBtn.addEventListener("click", function () {
+            priceRange.value = 15000;
+            passengerCount = 1;
+            checkboxes.forEach(cb => cb.checked = true);
+            updateFlights();
+        });
+
+        updateFlights();
+    </script>
+}

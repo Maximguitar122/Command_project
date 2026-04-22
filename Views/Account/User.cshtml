@@ -1,0 +1,49 @@
+﻿@model List<Luftreise_Command_project_.Models.User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Усі користувачі</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="text-success">@TempData["SuccessMessage"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>ПІБ</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Роль</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@user.Phone</td>
+                <td>@(user.IsAdmin ? "Адмін" : "Користувач")</td>
+                <td>
+                    @if (!user.IsAdmin)
+                    {
+                        <form asp-action="DeleteUser" asp-controller="Account" method="post" style="display:inline;"
+                              onsubmit="return confirm('Видалити цього користувача?');">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit">Видалити</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Profile" asp-controller="Account">Назад у профіль</a>

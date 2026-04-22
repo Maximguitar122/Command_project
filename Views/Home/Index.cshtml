@@ -1,0 +1,151 @@
+@model Luftreise_Command_project_.Models.SearchModels
+
+@{
+    ViewData["Title"] = "Головна - Luftreise";
+
+    var from = Model?.From ?? "";
+    var to = Model?.To ?? "";
+    var flightDate = Model?.FlightDate != default
+        ? Model.FlightDate.ToString("yyyy-MM-dd")
+        : "";
+}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="title">Luftreise</h1>
+        <p class="subtitle">Відкрийте світ разом з Luftreise</p>
+
+        <div class="search-form-container">
+            <form asp-action="Search" asp-controller="Flights" method="post" class="search-form">
+
+                <div class="form-row form-row-top">
+                    <div class="input-group">
+                        <label for="from">Звідки</label>
+                        <input id="from" type="text" name="From" placeholder="Київ (KBP)" value="@from" />
+                    </div>
+
+                    <div class="swap-wrapper">
+                        <button type="button" class="swap-btn" onclick="swapFields()" aria-label="Поміняти місцями напрямки">
+                            ↔
+                        </button>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="to">Куди</label>
+                        <input id="to" type="text" name="To" placeholder="Париж (CDG)" value="@to" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="flightDate">Дата вильоту</label>
+                        <input id="flightDate" type="date" name="FlightDate" value="@flightDate" />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="returnDate">Дата повернення</label>
+                        <input id="returnDate" type="date" name="ReturnDate" />
+                    </div>
+                </div>
+
+                <button type="submit" class="search-btn">
+                    Знайти рейси →
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function swapFields() {
+            const fromInput = document.getElementById('from');
+            const toInput = document.getElementById('to');
+
+            const temp = fromInput.value;
+            fromInput.value = toInput.value;
+            toInput.value = temp;
+        }
+    </script>
+}
+
+<section class="info-section" id="info-section">
+    <div class="info-container">
+        <div class="info-header">
+            <h1>Чому обирають нас</h1>
+            <p>Ми пропонуємо найкращий сервіс та комфорт для ваших подорожей</p>
+        </div>
+       <div class="info-grid">
+           <div class="info-card">
+                <div class="info-icon a">✦</div>
+                <h2>Преміум комфорт</h2>
+                <p>Насолоджуйтесь розкішшю на кожному рейсі</p>
+           </div>
+
+            <div class="info-card">
+                <div class="info-icon b">🛡</div>
+                <h2>Безпека понад усе</h2>
+                <p>Ваша безпека - наш пріоритет номер один</p>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon c">🕒</div>
+                <h2>Завжди вчасно</h2>
+                <p>98% рейсів відправляються за розкладом</p>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon d">🏅</div>
+                <h2>Нагороджені сервісом</h2>
+                <p>Переможець багатьох міжнародних премій</p>
+            </div>
+       </div>
+        
+          
+        
+    </div>
+</section>
+
+
+<section class="trip-popular" id="popularFlights">
+    <div class="trip-container">
+        <div class="trip-header">
+            <h3>Популярні напрямки</h3>
+            <p>Досліджуйте найкращі міста світу</p>
+        </div>
+
+        <div class="trip-grid">
+            <div class="trip-card">
+                <img src="/img/City 1.png" alt="Kosice to Bratislava" />
+                <div class="trip-card-content">
+                    <p class="trip-route">Kosice ➡️ Bratislava</p>
+                    <span class="trip-price">19€</span>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <img src="/img/City 3.png" alt="Budapest to Paris" />
+                <div class="trip-card-content">
+                    <p class="trip-route">Budapest ➡️ Paris</p>
+                    <span class="trip-price">68€</span>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <img src="/img/City 4.png" alt="Kosice to Rome" />
+                <div class="trip-card-content">
+                    <p class="trip-route">Kosice ➡️ Rome</p>
+                    <span class="trip-price">56€</span>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <img src="/img/City 2.png" alt="Kosice to London" />
+                <div class="trip-card-content">
+                    <p class="trip-route">Kosice ➡️ London</p>
+                    <span class="trip-price">34€</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

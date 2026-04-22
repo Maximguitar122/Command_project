@@ -1,0 +1,26 @@
+﻿@model Luftreise_Command_project_.Models.User
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+
+        <div class="profile-details-card">
+            <h2>Видалити акаунт</h2>
+
+            <p>Ви впевнені, що хочете видалити акаунт?</p>
+
+            <div style="margin-top:20px;">
+                <form asp-action="DeleteConfirmed" method="post">
+                    <button class="auth-btn" style="background:red;">
+                        Так, видалити
+                    </button>
+                </form>
+
+                <a asp-action="Profile" class="auth-btn" style="margin-top:10px;">
+                    Скасувати
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>

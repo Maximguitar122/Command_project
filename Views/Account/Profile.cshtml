@@ -1,0 +1,194 @@
+﻿@model Luftreise_Command_project_.Models.User
+@using Luftreise_Command_project_.Models
+
+@{
+    ViewData["Title"] = "Profile";
+
+    var firstLetter = !string.IsNullOrEmpty(Model.FullName)
+        ? Model.FullName.Substring(0, 1).ToUpper()
+        : "U";
+
+    var bookings = ViewBag.Bookings as List<BookingTicket>;
+    var tickets = ViewBag.Tickets as List<BookingTicket>;
+
+}
+@if (bookings != null && bookings.Any())
+{
+    <div style="margin-top:30px;">
+        <h2 style="margin-bottom:16px;">Мої квитки</h2>
+
+        @foreach (var ticket in bookings)
+        {
+            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px; margin-bottom:14px;">
+                <p><strong>Номер бронювання:</strong> @ticket.BookingNumber</p>
+                <p><strong>Маршрут:</strong> @ticket.FromCity → @ticket.ToCity</p>
+                <p><strong>Рейс:</strong> @ticket.FlightNumber</p>
+                <p><strong>Дата:</strong> @ticket.FlightDate.ToString("dd.MM.yyyy")</p>
+                <p><strong>Місце:</strong> @ticket.SeatNumber</p>
+                <p><strong>Багаж:</strong> @(ticket.BaggageWeight == 0 ? "Ручна поклажа" : ticket.BaggageWeight + " кг")</p>
+                <p><strong>Статус:</strong> @ticket.Status</p>
+                <p><strong>Ціна:</strong> @ticket.Price €</p>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                    <a asp-controller="Flights" asp-action="BookingDetails" asp-route-id="@ticket.Id"
+                       style="display:inline-block; padding:10px 16px; border-radius:10px; background:#2563eb; color:white; text-decoration:none;">
+                        Деталі
+                    </a>
+
+                    @if (ticket.Status != "Скасовано")
+                    {
+                        <form asp-controller="Flights" asp-action="CancelBooking" asp-route-id="@ticket.Id" method="post" style="display:inline;">
+                            <button type="submit"
+                                    style="padding:10px 16px; border:none; border-radius:10px; background:#ef4444; color:white; cursor:pointer;">
+                                Скасувати
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+@if (tickets != null && tickets.Count > 0)
+{
+    <h2 class="write">Мої бронювання</h2>
+
+    @foreach (var item in tickets)
+    {
+        <div class="ticket-card">
+            <p>@item.FromCity → @item.ToCity</p>
+            <p>@item.FlightDate.ToShortDateString()</p>
+            <p>@item.Airline</p>
+            <p>@item.Price ₴</p>
+        </div>
+    }
+}
+else
+{
+    <div class="no-bookings-card">
+        <div class="no-bookings-icon">✈</div>
+        <div class="no-bookings-content">
+            <h3>У вас ще немає бронювань</h3>
+            <p>Після оформлення квитка тут з’явиться інформація про ваші перельоти.</p>
+            <a asp-controller="Home" asp-action="Index" class="no-bookings-btn">Знайти рейс</a>
+        </div>
+    </div>
+}
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="toast">@TempData["SuccessMessage"]</div>
+        }
+
+        <div class="profile-top-card">
+            <div class="profile-user-info">
+                @if (!string.IsNullOrEmpty(Model.AvatarPath))
+                {
+                    <div class="profile-avatar">
+                        <img src="@Model.AvatarPath" alt="avatar" class="profile-avatar-img" />
+                    </div>
+                }
+                else
+                {
+                    <div class="profile-avatar">@firstLetter</div>
+                }
+
+                <div>
+                    <h1>@Model.FullName</h1>
+                    <p>@Model.Email</p>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                @if (Model.IsAdmin)
+                {
+                    <a asp-action="Users" asp-controller="Account" class="logout-btn">Користувачі</a>
+                }
+
+                <a asp-action="Logout" asp-controller="Account" class="logout-btn">Вийти</a>
+            </div>
+        </div>
+
+        <div class="profile-details-card">
+            <h2>Особиста інформація</h2>
+
+            <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <div class="profile-grid">
+                    <div class="profile-field">
+                        <label asp-for="FullName">Повне ім’я</label>
+                        <input asp-for="FullName" />
+                        <span asp-validation-for="FullName" class="field-validation"></span>
+                    </div>
+
+                    <div class="profile-field">
+                        <label asp-for="Phone">Телефон</label>
+                        <input asp-for="Phone" />
+                        <span asp-validation-for="Phone" class="field-validation"></span>
+                    </div>
+
+                    <div class="profile-field">
+                        <label asp-for="City">Місто</label>
+                        <input asp-for="City" />
+                        <span asp-validation-for="City" class="field-validation"></span>
+                    </div>
+
+                    <div class="profile-field">
+                        <label asp-for="Country">Країна</label>
+                        <input asp-for="Country" />
+                        <span asp-validation-for="Country" class="field-validation"></span>
+                    </div>
+
+                    <div class="profile-field">
+                        <label asp-for="BirthDate">Дата народження</label>
+                        <input asp-for="BirthDate" type="date" />
+                        <span asp-validation-for="BirthDate" class="field-validation"></span>
+                    </div>
+
+                    <div class="profile-field">
+                        <label asp-for="AvatarFile">Фото профілю</label>
+                        <input asp-for="AvatarFile" type="file" />
+                        <span asp-validation-for="AvatarFile" class="field-validation"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">Зберегти зміни</button>
+            </form>
+
+            <form asp-action="DeleteAccount"
+                  asp-controller="Account"
+                  method="post"
+                  onsubmit="return confirm('Видалити акаунт?');"
+                  style="margin-top: 14px;">
+                <button type="submit" class="auth-btn delete-btn">Видалити акаунт</button>
+            </form>
+
+
+
+        </div>
+    </div>
+
+
+</section>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById("toast");
+            if (toast) {
+                toast.style.opacity = "0";
+                toast.style.transition = "0.4s";
+                setTimeout(() => toast.remove(), 400);
+            }
+        }, 2500);
+    </script>
+}

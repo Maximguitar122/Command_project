@@ -1,0 +1,41 @@
+﻿@model List<Luftreise_Command_project_.Models.User>
+
+@{
+    ViewData["Title"] = "Список користувачів";
+}
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+        <div class="profile-details-card">
+            <h2>Список користувачів</h2>
+
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ПІБ</th>
+                        <th>Email</th>
+                        <th>Місто</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>@user.City</td>
+                            <td>
+                                <a asp-action="UserDetails" asp-route-id="@user.Id">Details</a> |
+                                <a asp-action="EditProfile">Edit</a> |
+                                <a asp-action="DeleteProfile">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
