@@ -43,8 +43,14 @@ public class BookingRepository : IBookingRepository
             .Include(b => b.Passengers)
             .FirstOrDefaultAsync(b => b.BookingReference == reference);
     }
+  public async Task<Booking> CreateBookingAsync(Booking booking)
+  {
+    await _context.Bookings.AddAsync(booking);
+    await _context.SaveChangesAsync();
+    return booking;
+  }
 
-    public async Task AddAsync(Booking booking)
+  public async Task AddAsync(Booking booking)
     {
         await _context.Bookings.AddAsync(booking);
         await _context.SaveChangesAsync();

@@ -2,25 +2,25 @@
 
 ## Опис проєкту
 
-<<<<<<< HEAD
+
 Luftreise - це сучасна онлайн-платформа для пошуку, бронювання та купівлі авіаквитків, розроблена командою "Бригантина" як курсовий проєкт IT STEP Academy.
-=======
+
 Luftreise - це сучасна онлайн-платформа для пошуку, бронювання та купівлі авіаквитків, розроблена командою "Бригантина" як курсовий проєкт з дисциплін .NET в IT STEP Academy.
->>>>>>> 595becd4d01a77026a22bab0118abd03b0a43f8b
+ 595becd4d01a77026a22bab0118abd03b0a43f8b
 
 ## Команда розробки
 
 - **Загоруйко Олександр Дмитрович** — Product Owner
 - **Качуровський Руслан Русланович** — Project Manager / Team Lead, Full Stack Developer, Technical Writer
-<<<<<<< HEAD
+
 - **Залуга Максим Петрович** — Frontend Developer, QA Engineer
 - **Корсун Микола Денисович** — Backend Developer
-=======
+
 - **Скрильников Микита Сергійович** — Backend Developer
 - **Залуга Максим Петрович** — Frontend Developer
 - **Корсун Микола Денисович** — Backend Developer
 - **Циміданов Герман Андрійович** — QA Engineer, Backend Developer
->>>>>>> 595becd4d01a77026a22bab0118abd03b0a43f8b
+
 
 ## Технологічний стек
 
