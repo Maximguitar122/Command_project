@@ -3,6 +3,9 @@ using Luftreise.Application.Services;
 using Luftreise_Command_project_.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Luftreise.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Luftreise.Application.Interfaces;
 
 namespace Luftreise_Command_project.Controllers
 {
@@ -10,6 +13,7 @@ namespace Luftreise_Command_project.Controllers
   {
     private readonly IFlightService _flightService;
     private readonly IBookingService _bookingService;
+    private readonly LuftreiseDbContext _context;
 
     public FlightsController(IFlightService flightService, IBookingService bookingService)
     {
@@ -89,6 +93,30 @@ namespace Luftreise_Command_project.Controllers
       var flights = await _flightService.SearchFlightsAsync(searchDto);
 
       return View("Flights", flights);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> SearchAirports(string term)
+    {
+      if (string.IsNullOrEmpty(term))
+      {
+        return Json(new List<object>());
+      }
+      var airport = await _context.Airports.Where
+      (a => a.City.Contains(term)
+      || a.Code.Contains(term)
+      || a.Name.Contains(term))
+      .Select(a => new
+      {
+        id = a.Id,
+        city = a.City,
+        code = a.Code,
+        name = a.Name,
+        text = a.City + " (" + a.Code + ")"
+      })
+      .Take(10)
+      .ToListAsync();
+      return Json(airport);
     }
   }
 }

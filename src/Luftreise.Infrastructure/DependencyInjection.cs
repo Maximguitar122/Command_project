@@ -1,4 +1,5 @@
 using Luftreise.Application.Interfaces;
+using Luftreise.Application.Services;
 using Luftreise.Infrastructure.Data;
 using Luftreise.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,10 @@ public static class DependencyInjection
 
     services.AddScoped<IFlightRepository, FlightRepository>();
     services.AddScoped<IBookingRepository, BookingRepository>();
+    services.AddScoped<IUserRepository, UserRepository>();
+
+    services.AddScoped<IFlightService, FlightService>();
+    services.AddScoped<IBookingService, BookingService>();
 
     return services;
   }

@@ -1,4 +1,4 @@
-﻿using Luftreise.Application.Interfaces;
+using Luftreise.Application.Interfaces;
 using Luftreise.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Luftreise_Command_project_.Models;
@@ -137,7 +137,13 @@ namespace Luftreise_Command_project_.Controllers
                 LastName = lastName,
                 PhoneNumber = model.Phone ?? string.Empty,
                 CreatedAt = DateTime.UtcNow,
-                Role = UserRole.User
+                Role = UserRole.User,
+                
+                City = model.City,
+                Country = model.Country,
+                BirthDate = model.BirthDate,
+                AvatarPath = avatarPath
+
             };
 
             await _userRepository.AddAsync(user);
@@ -164,7 +170,11 @@ namespace Luftreise_Command_project_.Controllers
                 Id = currentUser.Id,
                 Email = currentUser.Email,
                 FullName = $"{currentUser.FirstName} {currentUser.LastName}".Trim(),
-                Phone = currentUser.PhoneNumber
+                Phone = currentUser.PhoneNumber,
+                City = currentUser.City,
+                Country = currentUser.Country,
+                BirthDate = currentUser.BirthDate,
+                AvatarPath = currentUser.AvatarPath
             };
 
             return View(model);
@@ -254,8 +264,41 @@ namespace Luftreise_Command_project_.Controllers
             user.FirstName = names.Length > 0 ? names[0] : string.Empty;
             user.LastName = names.Length > 1 ? string.Join(" ", names.Skip(1)) : string.Empty;
             user.PhoneNumber = model.Phone ?? string.Empty;
+            user.City = model.City ?? string.Empty;
+            user.Country = model.Country ?? string.Empty;
+            user.BirthDate = model.BirthDate;
+           if(model.AvatarFile != null)
+           {   
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".webp" };
+            string extension = Path.GetExtension(model.AvatarFile.FileName).ToLower();
 
-            await _userRepository.UpdateAsync(user);
+            if (!allowedExtensions.Contains(extension))
+            {
+             ModelState.AddModelError("AvatarFile", "Дозволені лише файли: jpg, jpeg, png, webp");
+             return View("Profile", model);
+            }
+
+            if (model.AvatarFile.Length > 5 * 1024 * 1024)
+           {
+            ModelState.AddModelError("AvatarFile", "Розмір файлу не повинен перевищувати 5 МБ");
+            return View("Profile", model);
+            }
+
+              string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "avatars");
+              Directory.CreateDirectory(uploadsFolder);
+
+               string uniqueFileName = Guid.NewGuid() + extension;
+               string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+               using var stream = new FileStream(filePath, FileMode.Create);
+               await model.AvatarFile.CopyToAsync(stream);
+
+               user.AvatarPath = "/uploads/avatars/" + uniqueFileName;
+
+            }
+ 
+
+      await _userRepository.UpdateAsync(user);
 
             TempData["SuccessMessage"] = "Профіль оновлено!";
             return RedirectToAction("Profile");
