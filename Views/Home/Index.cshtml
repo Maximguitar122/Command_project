@@ -17,22 +17,37 @@
 
         <div class="search-form-container">
             <form asp-action="Search" asp-controller="Flights" method="post" class="search-form">
-
                 <div class="form-row form-row-top">
-                    <div class="input-group">
+                    <div class="input-group airport-autocomplete" data-airport-autocomplete>
                         <label for="from">Звідки</label>
-                        <input id="from" type="text" name="From" placeholder="Київ (KBP)" value="@from" />
+                        <input id="from"
+                               type="text"
+                               name="From"
+                               placeholder="Київ (KBP)"
+                               value="@from"
+                               autocomplete="off"
+                               data-airport-input
+                               data-airport-endpoint="@Url.Action("SearchAirports", "Flights")" />
+                        <div class="airport-autocomplete__dropdown" data-airport-dropdown hidden></div>
                     </div>
 
                     <div class="swap-wrapper">
-                        <button type="button" class="swap-btn" onclick="swapFields()" aria-label="Поміняти місцями напрямки">
+                        <button type="button" class="swap-btn" onclick="swapFields()" aria-label="Поміняти напрямки місцями">
                             ↔
                         </button>
                     </div>
 
-                    <div class="input-group">
+                    <div class="input-group airport-autocomplete" data-airport-autocomplete>
                         <label for="to">Куди</label>
-                        <input id="to" type="text" name="To" placeholder="Париж (CDG)" value="@to" />
+                        <input id="to"
+                               type="text"
+                               name="To"
+                               placeholder="Прага (PRG)"
+                               value="@to"
+                               autocomplete="off"
+                               data-airport-input
+                               data-airport-endpoint="@Url.Action("SearchAirports", "Flights")" />
+                        <div class="airport-autocomplete__dropdown" data-airport-dropdown hidden></div>
                     </div>
                 </div>
 
@@ -49,7 +64,7 @@
                 </div>
 
                 <button type="submit" class="search-btn">
-                    Знайти рейси →
+                    Знайти рейси 
                 </button>
             </form>
         </div>
@@ -73,45 +88,41 @@
     <div class="info-container">
         <div class="info-header">
             <h1>Чому обирають нас</h1>
-            <p>Ми пропонуємо найкращий сервіс та комфорт для ваших подорожей</p>
+            <p>Ми поєднуємо комфорт, швидкість і зрозумілий процес бронювання для кожної подорожі.</p>
         </div>
-       <div class="info-grid">
-           <div class="info-card">
+        <div class="info-grid">
+            <div class="info-card">
                 <div class="info-icon a">✦</div>
                 <h2>Преміум комфорт</h2>
-                <p>Насолоджуйтесь розкішшю на кожному рейсі</p>
-           </div>
+                <p>Продуманий досвід на кожному етапі від пошуку до посадки.</p>
+            </div>
 
             <div class="info-card">
                 <div class="info-icon b">🛡</div>
                 <h2>Безпека понад усе</h2>
-                <p>Ваша безпека - наш пріоритет номер один</p>
+                <p>Надійні маршрути, прозорі дані бронювання та зрозумілі деталі подорожі.</p>
             </div>
 
             <div class="info-card">
                 <div class="info-icon c">🕒</div>
                 <h2>Завжди вчасно</h2>
-                <p>98% рейсів відправляються за розкладом</p>
+                <p>Швидкий пошук, прості форми та зручніше планування поїздки.</p>
             </div>
 
             <div class="info-card">
-                <div class="info-icon d">🏅</div>
-                <h2>Нагороджені сервісом</h2>
-                <p>Переможець багатьох міжнародних премій</p>
+                <div class="info-icon d">🏆</div>
+                <h2>Надійний сервіс</h2>
+                <p>Сучасний інтерфейс бронювання, ближчий до реальних авіаплатформ.</p>
             </div>
-       </div>
-        
-          
-        
+        </div>
     </div>
 </section>
-
 
 <section class="trip-popular" id="popularFlights">
     <div class="trip-container">
         <div class="trip-header">
             <h3>Популярні напрямки</h3>
-            <p>Досліджуйте найкращі міста світу</p>
+            <p>Перегляньте міста, які шукають найчастіше.</p>
         </div>
 
         <div class="trip-grid">

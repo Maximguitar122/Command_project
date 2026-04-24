@@ -29,8 +29,9 @@ public class FlightService : IFlightService
       Price = f.Price,
       AvailableSeats = f.AvailableSeats,
       Status = f.Status.ToString(),
-      DepartureAirport = f.DepartureAirport?.Name ?? "",
-      ArrivalAirport = f.ArrivalAirport?.Name ?? ""
+      DepartureAirport = f.DepartureAirport?.City ?? "",
+      ArrivalAirport = f.ArrivalAirport?.City ?? "",
+      FlightClass = string.IsNullOrWhiteSpace(f.FlightClass) ? "Економ" : f.FlightClass
     });
   }
 }

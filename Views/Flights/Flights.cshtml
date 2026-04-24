@@ -1,26 +1,25 @@
-@model IEnumerable<Luftreise.Domain.Entities.Flight>
+@model IEnumerable<Luftreise.Application.DTOs.FlightDto>
 
 @{
     ViewData["Title"] = "Рейси";
 
-    var flights = Model?.ToList() ?? new List<Luftreise.Domain.Entities.Flight>();
+    var flights = Model?.ToList() ?? new List<Luftreise.Application.DTOs.FlightDto>();
     var firstFlight = flights.FirstOrDefault();
 
-    var fromCity = firstFlight?.DepartureAirport?.City ?? "Невідомо";
-    var toCity = firstFlight?.ArrivalAirport?.City ?? "Невідомо";
-    var flightDate = firstFlight?.DepartureTime.Date;
+    var fromCity = firstFlight?.DepartureAirport ?? "Невідомо";
+    var toCity = firstFlight?.ArrivalAirport ?? "Невідомо";
+    DateTime? flightDate = firstFlight?.DepartureTime.Date;
 }
 
 <section class="booking-page">
     <div class="booking-container">
-
         <div class="booking-header">
             <h1>Рейси: @fromCity → @toCity</h1>
 
             <div class="booking-meta">
                 <p>
                     Дата:
-                    @(flightDate.HasValue? flightDate.Value.ToString("yyyy-MM-dd") : "Не вказано")
+                    @(flightDate.HasValue ? flightDate.Value.ToString("yyyy-MM-dd") : "Не вказано")
                     <span class="dot">•</span>
                     Пасажири:
                 </p>
@@ -34,7 +33,6 @@
         </div>
 
         <div class="booking-content">
-
             <aside class="filters-panel">
                 <div class="filters-card">
                     <h2>Фільтри</h2>
@@ -80,6 +78,20 @@
                         var totalMinutes = (int)duration.TotalMinutes;
                         var hours = totalMinutes / 60;
                         var minutes = totalMinutes % 60;
+                        var bookingUrl = Url.Action("Booking", "Flights", new
+                        {
+                            id = flight.Id,
+                            airline = flight.AirlineName,
+                            flightNumber = flight.FlightNumber,
+                            fromCity = flight.DepartureAirport,
+                            toCity = flight.ArrivalAirport,
+                            departureTime = flight.DepartureTime.ToString("HH:mm"),
+                            arrivalTime = flight.ArrivalTime.ToString("HH:mm"),
+                            flightDate = flight.DepartureTime.ToString("yyyy-MM-dd"),
+                            flightClass = flight.FlightClass,
+                            price = flight.Price,
+                            passengers = 1
+                        });
 
                         <div class="flight-card" data-base-price="@flight.Price" data-class="@flight.FlightClass">
                             <div class="flight-top">
@@ -95,8 +107,8 @@
                             <div class="flight-main">
                                 <div class="flight-time-block">
                                     <h2>@flight.DepartureTime.ToString("HH:mm")</h2>
-                                    <p>@flight.DepartureAirport?.Code</p>
-                                    <span>@flight.DepartureAirport?.City</span>
+                                    <p>@flight.DepartureAirport</p>
+                                    <span>@flight.DepartureAirport</span>
                                 </div>
 
                                 <div class="flight-middle">
@@ -108,8 +120,8 @@
 
                                 <div class="flight-time-block">
                                     <h2>@flight.ArrivalTime.ToString("HH:mm")</h2>
-                                    <p>@flight.ArrivalAirport?.Code</p>
-                                    <span>@flight.ArrivalAirport?.City</span>
+                                    <p>@flight.ArrivalAirport</p>
+                                    <span>@flight.ArrivalAirport</span>
                                 </div>
 
                                 <div class="flight-price">
@@ -124,19 +136,7 @@
                                     <h2><span class="price-value">@flight.Price</span> €</h2>
                                     <p>за <span class="passenger-label">1</span> пас.</p>
 
-                                    <a asp-controller="Flights"
-                                       asp-action="Booking"
-                                       asp-route-id="@flight.Id"
-                                       asp-route-airline="@flight.AirlineName"
-                                       asp-route-flightNumber="@flight.FlightNumber"
-                                       asp-route-fromCity="@flight.DepartureAirport?.City"
-                                       asp-route-toCity="@flight.ArrivalAirport?.City"
-                                       asp-route-departureTime="@flight.DepartureTime.ToString("HH:mm")"
-                                       asp-route-arrivalTime="@flight.ArrivalTime.ToString("HH:mm")"
-                                       asp-route-flightDate="@flight.DepartureTime.ToString("yyyy-MM-dd")"
-                                       asp-route-flightClass="@flight.FlightClass"
-                                       asp-route-price="@flight.Price"
-                                       class="booking-btn">
+                                    <a href="@bookingUrl" data-booking-link class="booking-btn">
                                         Забронювати
                                     </a>
                                 </div>
@@ -166,12 +166,10 @@
     <script>
         const priceRange = document.getElementById("priceRange");
         const priceValue = document.getElementById("priceValue");
-
         const minusBtn = document.getElementById("minusPassengers");
         const plusBtn = document.getElementById("plusPassengers");
         const passengerCountEl = document.getElementById("passengerCount");
         const resultsCountEl = document.querySelector(".results-count");
-
         const resetBtn = document.querySelector(".reset-btn");
         const checkboxes = document.querySelectorAll(".checkbox-row input");
 
@@ -183,8 +181,8 @@
             passengerCountEl.textContent = passengerCount;
 
             let visibleCount = 0;
-
             const selectedClasses = [];
+
             checkboxes.forEach(cb => {
                 if (cb.checked) {
                     selectedClasses.push(cb.value);
@@ -198,9 +196,16 @@
 
                 const priceValueEl = card.querySelector(".price-value");
                 const passengerLabelEl = card.querySelector(".passenger-label");
+                const bookingLinkEl = card.querySelector("[data-booking-link]");
 
                 if (priceValueEl) priceValueEl.textContent = totalPrice;
                 if (passengerLabelEl) passengerLabelEl.textContent = passengerCount;
+
+                if (bookingLinkEl) {
+                    const url = new URL(bookingLinkEl.href, window.location.origin);
+                    url.searchParams.set("passengers", passengerCount);
+                    bookingLinkEl.href = url.pathname + url.search;
+                }
 
                 const priceAllowed = totalPrice <= maxPrice;
                 const classAllowed = selectedClasses.includes(flightClass);
@@ -218,23 +223,21 @@
 
         priceRange.addEventListener("input", updateFlights);
 
-        plusBtn.addEventListener("click", function () {
+        plusBtn.addEventListener("click", () => {
             passengerCount++;
             updateFlights();
         });
 
-        minusBtn.addEventListener("click", function () {
+        minusBtn.addEventListener("click", () => {
             if (passengerCount > 1) {
                 passengerCount--;
                 updateFlights();
             }
         });
 
-        checkboxes.forEach(cb => {
-            cb.addEventListener("change", updateFlights);
-        });
+        checkboxes.forEach(cb => cb.addEventListener("change", updateFlights));
 
-        resetBtn.addEventListener("click", function () {
+        resetBtn.addEventListener("click", () => {
             priceRange.value = 15000;
             passengerCount = 1;
             checkboxes.forEach(cb => cb.checked = true);

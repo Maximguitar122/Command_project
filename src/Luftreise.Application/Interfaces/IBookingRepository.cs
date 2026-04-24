@@ -12,4 +12,8 @@ public interface IBookingRepository
 
   Task AddAsync(Booking booking);
   Task UpdateAsync(Booking booking);
+  Task DeleteAsync(Booking booking);
+
+  
+  Task<Flight?> GetFlightByIdAsync(int flightId);
 }

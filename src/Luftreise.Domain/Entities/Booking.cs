@@ -12,5 +12,6 @@ public class Booking
     public BookingStatus Status { get; set; }
     public decimal TotalPrice { get; set; }
     public int NumberOfPassengers { get; set; }
-    public ICollection<Passenger> Passengers { get; set; } = new List<Passenger>();
+    public string SeatNumber { get; set; } = "A12";
+  public ICollection<Passenger> Passengers { get; set; } = new List<Passenger>();
 }

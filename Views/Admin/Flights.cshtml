@@ -1,0 +1,61 @@
+@model List<Luftreise.Domain.Entities.Flight>
+@using Luftreise.Domain.Entities
+
+@{
+    ViewData["Title"] = "Рейси";
+}
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+        <div class="profile-top-card">
+            <div class="profile-user-info">
+                <div>
+                    <h1>Рейси</h1>
+                    <p>Список доступних і скасованих рейсів</p>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <a asp-controller="Admin" asp-action="CreateFlight" class="logout-btn">Додати рейс</a>
+                <a asp-controller="Admin" asp-action="Dashboard" class="logout-btn">Назад</a>
+            </div>
+        </div>
+
+        <div class="profile-details-card">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Рейс</th>
+                        <th>Маршрут</th>
+                        <th>Дата</th>
+                        <th>Ціна</th>
+                        <th>Місця</th>
+                        <th>Статус</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flight in Model)
+                    {
+                        <tr>
+                            <td>@flight.FlightNumber</td>
+                            <td>@flight.DepartureAirport.City → @flight.ArrivalAirport.City</td>
+                            <td>@flight.DepartureTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@flight.Price €</td>
+                            <td>@flight.AvailableSeats / @flight.TotalSeats</td>
+                            <td>@flight.Status</td>
+                            <td>
+                                @if (flight.Status != Luftreise.Domain.Entities.FlightStatus.Cancelled)
+                                {
+                                    <form asp-controller="Admin" asp-action="CancelFlight" asp-route-id="@flight.Id" method="post">
+                                        <button type="submit" class="auth-btn delete-btn">Скасувати</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

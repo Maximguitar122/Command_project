@@ -1,0 +1,49 @@
+@model List<Luftreise_Command_project_.Models.User>
+
+@{
+    ViewData["Title"] = "Користувачі";
+}
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+        <div class="profile-details-card">
+            <h2>Зареєстровані користувачі</h2>
+
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ПІБ</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Місто</th>
+                        <th>Роль</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>@user.Phone</td>
+                            <td>@user.City</td>
+                            <td>@(user.IsAdmin ? "Адмін" : "Користувач")</td>
+                            <td>
+                                @if (!user.IsAdmin)
+                                {
+                                    <form asp-controller="Account" asp-action="DeleteUser" method="post">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button type="submit" class="auth-btn delete-btn">Видалити</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

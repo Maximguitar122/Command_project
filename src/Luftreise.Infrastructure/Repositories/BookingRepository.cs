@@ -61,4 +61,15 @@ public class BookingRepository : IBookingRepository
         _context.Bookings.Update(booking);
         await _context.SaveChangesAsync();
     }
+
+  public async Task DeleteAsync(Booking booking)
+  {
+    _context.Bookings.Remove(booking);
+    await _context.SaveChangesAsync();
+  }
+
+  public async Task<Flight?> GetFlightByIdAsync(int flightId)
+  {
+    return await _context.Flights.FirstOrDefaultAsync(f => f.Id == flightId);
+  }
 }

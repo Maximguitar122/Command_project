@@ -1,85 +1,118 @@
-﻿@model Luftreise_Command_project_.Models.User
+@model Luftreise_Command_project_.Models.User
 @using Luftreise_Command_project_.Models
 
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Профіль";
 
     var firstLetter = !string.IsNullOrEmpty(Model.FullName)
         ? Model.FullName.Substring(0, 1).ToUpper()
         : "U";
 
     var bookings = ViewBag.Bookings as List<BookingTicket>;
-    var tickets = ViewBag.Tickets as List<BookingTicket>;
-
-}
-@if (bookings != null && bookings.Any())
-{
-    <div style="margin-top:30px;">
-        <h2 style="margin-bottom:16px;">Мої квитки</h2>
-
-        @foreach (var ticket in bookings)
-        {
-            <div style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px; margin-bottom:14px;">
-                <p><strong>Номер бронювання:</strong> @ticket.BookingNumber</p>
-                <p><strong>Маршрут:</strong> @ticket.FromCity → @ticket.ToCity</p>
-                <p><strong>Рейс:</strong> @ticket.FlightNumber</p>
-                <p><strong>Дата:</strong> @ticket.FlightDate.ToString("dd.MM.yyyy")</p>
-                <p><strong>Місце:</strong> @ticket.SeatNumber</p>
-                <p><strong>Багаж:</strong> @(ticket.BaggageWeight == 0 ? "Ручна поклажа" : ticket.BaggageWeight + " кг")</p>
-                <p><strong>Статус:</strong> @ticket.Status</p>
-                <p><strong>Ціна:</strong> @ticket.Price €</p>
-
-                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                    <a asp-controller="Flights" asp-action="BookingDetails" asp-route-id="@ticket.Id"
-                       style="display:inline-block; padding:10px 16px; border-radius:10px; background:#2563eb; color:white; text-decoration:none;">
-                        Деталі
-                    </a>
-
-                    @if (ticket.Status != "Скасовано")
-                    {
-                        <form asp-controller="Flights" asp-action="CancelBooking" asp-route-id="@ticket.Id" method="post" style="display:inline;">
-                            <button type="submit"
-                                    style="padding:10px 16px; border:none; border-radius:10px; background:#ef4444; color:white; cursor:pointer;">
-                                Скасувати
-                            </button>
-                        </form>
-                    }
-                </div>
-            </div>
-        }
-    </div>
+    var adminUsers = ViewBag.AdminUsers as List<Luftreise_Command_project_.Models.User>;
+    var adminFlights = ViewBag.AdminFlights as List<Luftreise.Domain.Entities.Flight>;
 }
 
-
-@if (tickets != null && tickets.Count > 0)
+@if (!Model.IsAdmin && bookings != null && bookings.Any())
 {
     <h2 class="write">Мої бронювання</h2>
 
-    @foreach (var item in tickets)
+    @foreach (var ticket in bookings)
     {
-        <div class="ticket-card">
-            <p>@item.FromCity → @item.ToCity</p>
-            <p>@item.FlightDate.ToShortDateString()</p>
-            <p>@item.Airline</p>
-            <p>@item.Price ₴</p>
+        <div class="profile-ticket-card">
+            <div class="profile-ticket-top">
+                <div>
+                    <p class="profile-ticket-route">@ticket.FromCity → @ticket.ToCity</p>
+                    <p class="profile-ticket-flight">Рейс: @ticket.FlightNumber</p>
+                </div>
+
+                <div class="profile-ticket-price">
+                    @ticket.Price €
+                </div>
+            </div>
+
+            <div class="profile-ticket-grid">
+                <div>
+                    <span>Номер бронювання</span>
+                    <strong>@ticket.BookingNumber</strong>
+                </div>
+
+                <div>
+                    <span>Дата</span>
+                    <strong>@ticket.FlightDate.ToString("dd.MM.yyyy")</strong>
+                </div>
+
+                <div>
+                    <span>Місце</span>
+                    <strong>@ticket.SeatNumber</strong>
+                </div>
+
+                <div>
+                    <span>Багаж</span>
+                    <strong>@(ticket.BaggageWeight == 0 ? "Ручна поклажа" : ticket.BaggageWeight + " кг")</strong>
+                </div>
+
+                <div>
+                    <span>Статус</span>
+                    <strong>@ticket.Status</strong>
+                </div>
+
+                <div>
+                    <span>Авіалінія</span>
+                    <strong>@ticket.Airline</strong>
+                </div>
+            </div>
+
+            <div class="profile-ticket-actions">
+                <button type="button"
+                        class="booking-btn profile-details-btn"
+                        data-booking-details
+                        data-booking-number="@ticket.BookingNumber"
+                        data-airline="@ticket.Airline"
+                        data-flight-number="@ticket.FlightNumber"
+                        data-route="@ticket.FromCity → @ticket.ToCity"
+                        data-flight-date="@ticket.FlightDate.ToString("dd.MM.yyyy")"
+                        data-seat-number="@ticket.SeatNumber"
+                        data-status="@ticket.Status"
+                        data-price="@ticket.Price"
+                        data-passenger-count="@ticket.PassengerCount"
+                        data-passenger-names="@ticket.PassengerNames">
+                    Деталі
+                </button>
+
+                @if (ticket.Status != "Cancelled")
+                {
+                    <form asp-controller="Flights"
+                          asp-action="CancelBooking"
+                          asp-route-id="@ticket.Id"
+                          method="post">
+                        <button type="submit" class="auth-btn delete-btn profile-cancel-btn">
+                            Скасувати
+                        </button>
+                    </form>
+                }
+            </div>
         </div>
     }
 }
-else
+else if (!Model.IsAdmin)
 {
     <div class="no-bookings-card">
         <div class="no-bookings-icon">✈</div>
+
         <div class="no-bookings-content">
             <h3>У вас ще немає бронювань</h3>
-            <p>Після оформлення квитка тут з’явиться інформація про ваші перельоти.</p>
-            <a asp-controller="Home" asp-action="Index" class="no-bookings-btn">Знайти рейс</a>
+            <p>Після оформлення квитка тут з'явиться інформація про ваші перельоти.</p>
+
+            <a asp-controller="Home" asp-action="Index" class="no-bookings-btn">
+                Знайти рейс
+            </a>
         </div>
     </div>
 }
 
 <section class="profile-page">
     <div class="profile-wrapper">
-
         @if (TempData["SuccessMessage"] != null)
         {
             <div id="toast">@TempData["SuccessMessage"]</div>
@@ -107,22 +140,131 @@ else
             <div class="profile-actions">
                 @if (Model.IsAdmin)
                 {
-                    <a asp-action="Users" asp-controller="Account" class="logout-btn">Користувачі</a>
+                    <a asp-action="Dashboard" asp-controller="Admin" class="logout-btn">
+                        Користувачі
+                    </a>
                 }
 
-                <a asp-action="Logout" asp-controller="Account" class="logout-btn">Вийти</a>
+                <a asp-action="Logout" asp-controller="Account" class="logout-btn">
+                    Вийти
+                </a>
             </div>
         </div>
 
+        @if (Model.IsAdmin)
+        {
+            <div class="profile-details-card admin-profile-card admin-profile-card--flights">
+                <h2 class="admin-profile-title">Адмін: доступні рейси</h2>
+
+                @if (adminFlights != null && adminFlights.Any())
+                {
+                    <table class="users-table admin-profile-table admin-profile-table--flights">
+                        <thead>
+                            <tr class="admin-profile-table__row admin-profile-table__row--head">
+                                <th>Рейс</th>
+                                <th>Маршрут</th>
+                                <th>Дата</th>
+                                <th>Ціна</th>
+                                <th>Місця</th>
+                                <th>Статус</th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var flight in adminFlights)
+                            {
+                                <tr class="admin-profile-table__row admin-profile-table__row--body">
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--flight-number">@flight.FlightNumber</td>
+                                    <td>@flight.DepartureAirport.City → @flight.ArrivalAirport.City</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--date">@flight.DepartureTime.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>@flight.Price €</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--seats">@flight.AvailableSeats / @flight.TotalSeats</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--status">@flight.Status</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--actions">
+                                        @if (flight.Status != Luftreise.Domain.Entities.FlightStatus.Cancelled)
+                                        {
+                                            <form asp-controller="Admin" asp-action="CancelFlight" method="post" class="admin-profile-action-form admin-profile-action-form--cancel-flight">
+                                                <input type="hidden" name="id" value="@flight.Id" />
+                                                <input type="hidden" name="returnToProfile" value="true" />
+                                                <button type="submit" class="auth-btn delete-btn admin-profile-action-btn admin-profile-action-btn--cancel-flight">Скасувати</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Рейсів поки немає.</p>
+                }
+            </div>
+
+            <div class="profile-details-card admin-profile-card admin-profile-card--users">
+                <h2 class="admin-profile-title">Адмін: зареєстровані користувачі</h2>
+
+                @if (adminUsers != null && adminUsers.Any())
+                {
+                    <table class="users-table admin-profile-table admin-profile-table--users">
+                        <thead>
+                            <tr class="admin-profile-table__row admin-profile-table__row--head">
+                                <th>ID</th>
+                                <th>ПІБ</th>
+                                <th>Email</th>
+                                <th>Телефон</th>
+                                <th>Місто</th>
+                                <th>Роль</th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in adminUsers)
+                            {
+                                <tr class="admin-profile-table__row admin-profile-table__row--body">
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--user-id">@user.Id</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--user-name">@user.FullName</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--user-email">@user.Email</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--user-phone">@user.Phone</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--user-city">@user.City</td>
+                                    <td class="admin-profile-table__cell admin-profile-table__cell--user-role">@(user.IsAdmin ? "Адмін" : "Користувач")</td>
+                                    <td>
+                                        @if (!user.IsAdmin)
+                                        {
+                                            <form asp-controller="Account" asp-action="DeleteUser" method="post" class="admin-profile-action-form admin-profile-action-form--delete-user">
+                                                <input type="hidden" name="id" value="@user.Id" />
+                                                <input type="hidden" name="returnToProfile" value="true" />
+                                                <button type="submit" class="auth-btn delete-btn admin-profile-action-btn admin-profile-action-btn--delete-user">Видалити</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Користувачів поки немає.</p>
+                }
+            </div>
+        }
+
+        @if (!Model.IsAdmin)
+        {
         <div class="profile-details-card">
             <h2>Особиста інформація</h2>
 
-            <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data">
+            <form asp-action="EditProfile"
+                  asp-controller="Account"
+                  method="post"
+                  enctype="multipart/form-data">
+
                 <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
                 <div class="profile-grid">
                     <div class="profile-field">
-                        <label asp-for="FullName">Повне ім’я</label>
+                        <label asp-for="FullName">Повне ім'я</label>
                         <input asp-for="FullName" />
                         <span asp-validation-for="FullName" class="field-validation"></span>
                     </div>
@@ -158,25 +300,49 @@ else
                     </div>
                 </div>
 
-                <button type="submit" class="auth-btn">Зберегти зміни</button>
+                <button type="submit" class="auth-btn">
+                    Зберегти зміни
+                </button>
             </form>
 
             <form asp-action="DeleteAccount"
                   asp-controller="Account"
                   method="post"
                   onsubmit="return confirm('Видалити акаунт?');"
-                  style="margin-top: 14px;">
-                <button type="submit" class="auth-btn delete-btn">Видалити акаунт</button>
+                  style="margin-top:14px;">
+                <button type="submit" class="auth-btn delete-btn">
+                    Видалити акаунт
+                </button>
             </form>
-
-
-
         </div>
+        }
     </div>
-
-
 </section>
 
+<div class="booking-details-modal" id="bookingDetailsModal" hidden>
+    <div class="booking-details-modal__backdrop" data-close-booking-modal></div>
+    <div class="booking-details-modal__dialog">
+        <button type="button" class="booking-details-modal__close" data-close-booking-modal>×</button>
+        <h3>Деталі бронювання</h3>
+
+        <div class="booking-details-modal__grid">
+            <div><span>Номер бронювання</span><strong id="modalBookingNumber"></strong></div>
+            <div><span>Авіакомпанія</span><strong id="modalAirline"></strong></div>
+            <div><span>Рейс</span><strong id="modalFlightNumber"></strong></div>
+            <div><span>Маршрут</span><strong id="modalRoute"></strong></div>
+            <div><span>Дата</span><strong id="modalFlightDate"></strong></div>
+            <div><span>Статус</span><strong id="modalStatus"></strong></div>
+            <div><span>Місце</span><strong id="modalSeatNumber"></strong></div>
+            <div><span>Ціна</span><strong id="modalPrice"></strong></div>
+        </div>
+
+        <div class="booking-details-modal__passengers">
+            <span>Кількість пасажирів</span>
+            <strong id="modalPassengerCount"></strong>
+            <div class="booking-details-modal__passenger-list" id="modalPassengerNames"></div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
@@ -184,11 +350,71 @@ else
     <script>
         setTimeout(() => {
             const toast = document.getElementById("toast");
+
             if (toast) {
                 toast.style.opacity = "0";
                 toast.style.transition = "0.4s";
                 setTimeout(() => toast.remove(), 400);
             }
         }, 2500);
+
+        (() => {
+            const modal = document.getElementById("bookingDetailsModal");
+            if (!modal) return;
+
+            const fields = {
+                bookingNumber: document.getElementById("modalBookingNumber"),
+                airline: document.getElementById("modalAirline"),
+                flightNumber: document.getElementById("modalFlightNumber"),
+                route: document.getElementById("modalRoute"),
+                flightDate: document.getElementById("modalFlightDate"),
+                seatNumber: document.getElementById("modalSeatNumber"),
+                status: document.getElementById("modalStatus"),
+                price: document.getElementById("modalPrice"),
+                passengerCount: document.getElementById("modalPassengerCount"),
+                passengerNames: document.getElementById("modalPassengerNames")
+            };
+
+            const closeModal = () => {
+                modal.hidden = true;
+                document.body.classList.remove("modal-open");
+            };
+
+            document.querySelectorAll("[data-booking-details]").forEach((button) => {
+                button.addEventListener("click", () => {
+                    fields.bookingNumber.textContent = button.dataset.bookingNumber || "";
+                    fields.airline.textContent = button.dataset.airline || "";
+                    fields.flightNumber.textContent = button.dataset.flightNumber || "";
+                    fields.route.textContent = button.dataset.route || "";
+                    fields.flightDate.textContent = button.dataset.flightDate || "";
+                    fields.seatNumber.textContent = button.dataset.seatNumber || "";
+                    fields.status.textContent = button.dataset.status || "";
+                    fields.price.textContent = `${button.dataset.price || "0"} €`;
+                    fields.passengerCount.textContent = button.dataset.passengerCount || "1";
+
+                    const names = (button.dataset.passengerNames || "")
+                        .split(",")
+                        .map(name => name.trim())
+                        .filter(Boolean);
+
+                    fields.passengerNames.innerHTML = names
+                        .map(name => `<div class="booking-details-modal__passenger-chip">${name}</div>`)
+                        .join("");
+
+                    modal.hidden = false;
+                    document.body.classList.add("modal-open");
+                });
+            });
+
+            modal.querySelectorAll("[data-close-booking-modal]").forEach((element) => {
+                element.addEventListener("click", closeModal);
+            });
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape" && !modal.hidden) {
+                    closeModal();
+                }
+            });
+        })();
     </script>
 }

@@ -1,4 +1,46 @@
-﻿@page
-@model Luftreise_Command_project_.Views.Admin.DashBoardModel
+@model Luftreise_Command_project_.Models.Admin.AdminDashboardViewModel
+
 @{
+    ViewData["Title"] = "Адмін панель";
 }
+
+<section class="profile-page">
+    <div class="profile-wrapper">
+        <div class="profile-top-card">
+            <div class="profile-user-info">
+                <div>
+                    <h1>Адмін панель</h1>
+                    <p>Керування рейсами та користувачами</p>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <a asp-controller="Admin" asp-action="Flights" class="logout-btn">Рейси</a>
+                <a asp-controller="Admin" asp-action="Users" class="logout-btn">Користувачі</a>
+            </div>
+        </div>
+
+        <div class="profile-details-card">
+            <h2>Огляд</h2>
+
+            <div class="profile-ticket-grid">
+                <div>
+                    <span>Усього користувачів</span>
+                    <strong>@Model.TotalUsers</strong>
+                </div>
+                <div>
+                    <span>Усього рейсів</span>
+                    <strong>@Model.TotalFlights</strong>
+                </div>
+                <div>
+                    <span>Активні рейси</span>
+                    <strong>@Model.ActiveFlights</strong>
+                </div>
+                <div>
+                    <span>Скасовані рейси</span>
+                    <strong>@Model.CancelledFlights</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

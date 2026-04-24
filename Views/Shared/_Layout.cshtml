@@ -7,10 +7,6 @@
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-    @if (Context.Session.GetString("UserIsAdmin") == "Admin")
-    {
-        <a asp-controller="Account" asp-action="UsersList">Адмін панель</a>
-    }
 </head>
 <body>
     <header class="header"> 
@@ -23,6 +19,10 @@
             <a href="/" class="active">Головна</a>
             <a href="@Url.Action("Index", "Home")#popularFlights">Рейси</a>
                 <a href="@Url.Action("Index", "Home")#info-section">Про нас</a>
+                @if (Context.Session.GetString("UserIsAdmin") == "Admin")
+                {
+                    <a asp-controller="Admin" asp-action="Dashboard">Адмін панель</a>
+                }
         </nav>
             <div class="profile">
                 @if (Context.Session.GetString("UserEmail") != null)
@@ -73,6 +73,7 @@
             © 2026 Luftreise. Всі права захищені.
         </div>
     </footer>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     @if (TempData["SuccessMessage"] != null)
     {

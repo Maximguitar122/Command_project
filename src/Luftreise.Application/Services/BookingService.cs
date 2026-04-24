@@ -16,13 +16,20 @@ public class BookingService : IBookingService
 
   public async Task<BookingDto> CreateBookingAsync(int flightId, int userId, int numberOfPassengers)
   {
+    var flight = await _bookingRepository.GetFlightByIdAsync(flightId);
+
+    if (flight == null)
+      throw new Exception("Рейс не знайдено");
+
     var booking = new Booking
     {
       FlightId = flightId,
       UserId = userId,
       NumberOfPassengers = numberOfPassengers,
       BookingDate = DateTime.UtcNow,
-      Status = BookingStatus.Confirmed
+      Status = BookingStatus.Confirmed,
+      TotalPrice = flight.Price * numberOfPassengers,
+      BookingReference = "BK" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff")
     };
 
     var createdBooking = await _bookingRepository.CreateBookingAsync(booking);

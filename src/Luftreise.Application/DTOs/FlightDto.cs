@@ -12,4 +12,6 @@ public class FlightDto
     public int AvailableSeats { get; set; }
     public string AirlineName { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
+
+    public string FlightClass { get; set; } = string.Empty;  
 }

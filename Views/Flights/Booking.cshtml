@@ -1,7 +1,10 @@
 @model Luftreise_Command_project_.Models.BookingViewModel
 
 @{
-    ViewData["Title"] = "Booking";
+    ViewData["Title"] = "Бронювання";
+    var passengers = Model.Passengers ?? new List<Luftreise_Command_project_.Models.PassengerFormViewModel>();
+    var passengerCount = passengers.Count;
+    var totalPrice = Model.Price;
 }
 
 <div class="booking-screen">
@@ -13,106 +16,113 @@
         <div class="booking-screen__steps">
             <div class="booking-step active">
                 <div class="booking-step__circle">1</div>
-                <span>Пасажир</span>
+                <span>Пасажири</span>
             </div>
 
             <div class="booking-step__line"></div>
 
             <div class="booking-step">
                 <div class="booking-step__circle">2</div>
-                <span>Оплата</span>
+                <span>Підтвердження</span>
             </div>
         </div>
 
         <div class="booking-screen__layout">
             <div class="booking-screen__form-card">
                 <div class="booking-screen__form-title">
-                    <span class="booking-screen__form-title-icon">◌</span>
-                    <span>Дані пасажира</span>
+                    <span class="booking-screen__form-title-icon">○</span>
+                    <span>Дані пасажирів</span>
                 </div>
 
-                <form asp-action="Booking" asp-controller="Flights" method="post" class="booking-form">
+                <form asp-action="Booking" asp-controller="Flights" method="post" class="booking-form booking-form--passengers">
                     <input asp-for="FlightId" type="hidden" />
-                    <input asp-for="FromCity" type="hidden" />
-                    <input asp-for="ToCity" type="hidden" />
-                    <input asp-for="Airline" type="hidden" />
-                    <input asp-for="FlightNumber" type="hidden" />
-                    <input asp-for="DepartureTime" type="hidden" />
-                    <input asp-for="ArrivalTime" type="hidden" />
-                    <input asp-for="FlightDate" type="hidden" />
-                    <input asp-for="FlightClass" type="hidden" />
-                    <input asp-for="Price" type="hidden" />
-
 
                     <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-                    <div class="booking-field">
-                        <label asp-for="FirstName">Ім'я</label>
-                        <input asp-for="FirstName" placeholder="Іван" />
-                        <span asp-validation-for="FirstName"></span>
+                    <div class="booking-passengers-header">
+                        <div>
+                            <h3>Пасажири</h3>
+                            <p>Кількість пасажирів уже вибрана на попередньому кроці: <strong>@passengerCount</strong>.</p>
+                        </div>
                     </div>
 
-                    <div class="booking-field">
-                        <label asp-for="LastName">Прізвище</label>
-                        <input asp-for="LastName" placeholder="Іваненко" />
-                        <span asp-validation-for="LastName"></span>
+                    <div id="passengersContainer" class="booking-passengers-list">
+                        @for (var i = 0; i < passengers.Count; i++)
+                        {
+                            <div class="booking-passenger-card" data-passenger-card>
+                                <div class="booking-passenger-card__header">
+                                    <h4>Пасажир @(i + 1)</h4>
+                                </div>
+
+                                <div class="booking-passenger-grid">
+                                    <div class="booking-field">
+                                        <label asp-for="Passengers[i].FirstName">Ім'я</label>
+                                        <input asp-for="Passengers[i].FirstName" placeholder="Іван" />
+                                        <span asp-validation-for="Passengers[i].FirstName"></span>
+                                    </div>
+
+                                    <div class="booking-field">
+                                        <label asp-for="Passengers[i].LastName">Прізвище</label>
+                                        <input asp-for="Passengers[i].LastName" placeholder="Іваненко" />
+                                        <span asp-validation-for="Passengers[i].LastName"></span>
+                                    </div>
+
+                                    <div class="booking-field full">
+                                        <label asp-for="Passengers[i].Email">Електронна пошта</label>
+                                        <input asp-for="Passengers[i].Email" placeholder="ivan@example.com" />
+                                        <span asp-validation-for="Passengers[i].Email"></span>
+                                    </div>
+
+                                    <div class="booking-field full">
+                                        <label asp-for="Passengers[i].Phone">Телефон</label>
+                                        <input asp-for="Passengers[i].Phone" placeholder="+380 XX XXX XX XX" />
+                                        <span asp-validation-for="Passengers[i].Phone"></span>
+                                    </div>
+
+                                    <div class="booking-field full">
+                                        <label asp-for="Passengers[i].PassportNumber">Номер паспорта</label>
+                                        <input asp-for="Passengers[i].PassportNumber" placeholder="AA 123456" />
+                                        <span asp-validation-for="Passengers[i].PassportNumber"></span>
+                                    </div>
+
+                                    <div class="booking-field">
+                                        <label asp-for="Passengers[i].BaggageWeight">Багаж</label>
+                                        <select asp-for="Passengers[i].BaggageWeight" class="booking-select">
+                                            <option value="0">Ручна поклажа</option>
+                                            <option value="5">5 кг</option>
+                                            <option value="10">10 кг</option>
+                                            <option value="15">15 кг</option>
+                                            <option value="32">32 кг</option>
+                                        </select>
+                                        <span asp-validation-for="Passengers[i].BaggageWeight"></span>
+                                    </div>
+
+                                    <div class="booking-field">
+                                        <label asp-for="Passengers[i].SeatNumber">Місце</label>
+                                        <select asp-for="Passengers[i].SeatNumber" class="booking-select">
+                                            <option value="A12">A12</option>
+                                            <option value="A13">A13</option>
+                                            <option value="A14">A14</option>
+                                            <option value="B12">B12</option>
+                                            <option value="B13">B13</option>
+                                            <option value="B14">B14</option>
+                                            <option value="C12">C12</option>
+                                            <option value="C13">C13</option>
+                                            <option value="C14">C14</option>
+                                        </select>
+                                        <span asp-validation-for="Passengers[i].SeatNumber"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-
-                    <div class="booking-field full">
-                        <label asp-for="Email">Електронна пошта</label>
-                        <input asp-for="Email" placeholder="ivan@example.com" />
-                        <span asp-validation-for="Email"></span>
-                    </div>
-
-                    <div class="booking-field full">
-                        <label asp-for="Phone">Телефон</label>
-                        <input asp-for="Phone" placeholder="+380 XX XXX XX XX" />
-                        <span asp-validation-for="Phone"></span>
-                    </div>
-
-                    <div class="booking-field full">
-                        <label asp-for="PassportNumber">Номер паспорта</label>
-                        <input asp-for="PassportNumber" placeholder="AA 123456" />
-                        <span asp-validation-for="PassportNumber"></span>
-                    </div>
-
-                    <div class="booking-field full">
-                        <label asp-for="BaggageWeight">Багаж</label>
-                        <select asp-for="BaggageWeight" style="width:100%; height:46px; border:1px solid #e5e7eb; border-radius:12px; background:#f3f4f6; padding:0 16px; font-size:15px; color:#334155; outline:none;">
-                            <option value="">Оберіть багаж</option>
-                            <option value="0">Ручна поклажа</option>
-                            <option value="5">5 кг</option>
-                            <option value="10">10 кг</option>
-                            <option value="15">15 кг</option>
-                            <option value="32">32 кг</option>
-                        </select>
-                        <span asp-validation-for="BaggageWeight"></span>
-
-                   
-                    </div>
-
-                   
 
                     <div class="booking-note">
-                        <span class="booking-note__icon">ⓘ</span>
-                        <span>Переконайтеся, що всі дані співпадають з вашим паспортом</span>
+                        <span class="booking-note__icon">i</span>
+                        <span>Переконайтеся, що всі дані збігаються з документами пасажирів.</span>
                     </div>
-                    <div class="booking-field full">
-                        <label asp-for="SeatNumber">Місце</label>
-                        <select asp-for="SeatNumber" style="width:100%; height:46px; border:1px solid #e5e7eb; border-radius:12px; background:#f3f4f6; padding:0 16px; font-size:15px; color:#334155; outline:none;">
-                            <option value="A12">A12</option>
-                            <option value="A13">A13</option>
-                            <option value="A14">A14</option>
-                            <option value="B12">B12</option>
-                            <option value="B13">B13</option>
-                            <option value="B14">B14</option>
-                            <option value="C12">C12</option>
-                            <option value="C13">C13</option>
-                            <option value="C14">C14</option>
-                        </select>
-                        <span asp-validation-for="SeatNumber"></span>
-                    </div>
-                    <button type="submit" class="booking-submit">Продовжити</button>
+
+                    <button type="submit" class="booking-submit">Підтвердити бронювання</button>
                 </form>
             </div>
 
@@ -134,7 +144,7 @@
 
                 <div class="booking-ticket-section">
                     <div class="booking-ticket-label">Маршрут</div>
-                    <div class="booking-ticket-value">@Model.FromCity → @Model.ToCity</div>
+                    <div class="booking-ticket-value">@Model.FromCity -> @Model.ToCity</div>
                 </div>
 
                 <div class="booking-ticket-grid-2 booking-ticket-section">
@@ -151,9 +161,7 @@
 
                 <div class="booking-ticket-section">
                     <div class="booking-ticket-label">Дата</div>
-                    <div class="booking-ticket-value">
-                        @Model.FlightDate.ToString("dd MMMM yyyy")
-                    </div>
+                    <div class="booking-ticket-value">@Model.FlightDate.ToString("dd.MM.yyyy")</div>
                 </div>
 
                 <div class="booking-ticket-section">
@@ -162,11 +170,19 @@
                 </div>
 
                 <div class="booking-ticket-section">
-                    <div class="booking-ticket-label">Ціна</div>
-                    <div class="booking-ticket-value">@Model.Price €</div>
+                    <div class="booking-ticket-label">Кількість квитків</div>
+                    <div class="booking-ticket-value">@passengerCount</div>
+                </div>
+
+                <div class="booking-ticket-section">
+                    <div class="booking-ticket-label">Загальна ціна</div>
+                    <div class="booking-ticket-value">@totalPrice €</div>
                 </div>
             </aside>
         </div>
     </div>
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

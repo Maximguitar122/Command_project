@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 
 namespace Luftreise_Command_project_.Models
@@ -17,7 +17,9 @@ namespace Luftreise_Command_project_.Models
         public string ArrivalTime { get; set; } = string.Empty;
         public DateTime FlightDate { get; set; }
         public string FlightClass { get; set; } = string.Empty;
-        public double Price { get; set; }
+        public decimal Price { get; set; }
+        public int PassengerCount { get; set; }
+        public string PassengerNames { get; set; } = string.Empty;
         public double BaggageWeight { get; set; }
         public string PassportNumber { get; set; } = string.Empty;
         public string SeatNumber { get; set; } = "A12";

@@ -11,7 +11,9 @@ namespace Luftreise.Infrastructure.Data
   {
     public static async Task SeedAsync(LuftreiseDbContext context)
     {
-      await context.Database.MigrateAsync();
+      var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+      if (pendingMigrations.Any())
+        await context.Database.MigrateAsync();
 
       await SeedAirportsAsync(context);
       await SeedFlightsAsync(context);
@@ -73,9 +75,6 @@ namespace Luftreise.Infrastructure.Data
 
     private static async Task SeedFlightsAsync(LuftreiseDbContext context)
     {
-      if (await context.Flights.AnyAsync())
-        return;
-
       var airports = await context.Airports.ToListAsync();
 
       var kbp = airports.First(a => a.Code == "KBP");
@@ -85,90 +84,110 @@ namespace Luftreise.Infrastructure.Data
       var bud = airports.First(a => a.Code == "BUD");
 
       var today = DateTime.Today;
+      var existingFlights = await context.Flights.ToDictionaryAsync(f => f.FlightNumber);
 
       var flights = new List<Flight>
-            {
-                new Flight
-                {
-                    FlightNumber = "LR1001",
-                    AirlineName = "Luftreise Airways",
-                    DepartureAirportId = kbp.Id,
-                    ArrivalAirportId = prg.Id,
-                    DepartureTime = today.AddDays(1).AddHours(9),
-                    ArrivalTime = today.AddDays(1).AddHours(11),
-                    Price = 120m,
-                    AvailableSeats = 25,
-                    TotalSeats = 30,
-                    Status = FlightStatus.Scheduled
-                },
-                new Flight
-                {
-                    FlightNumber = "LR1002",
-                    AirlineName = "Luftreise Airways",
-                    DepartureAirportId = lwo.Id,
-                    ArrivalAirportId = waw.Id,
-                    DepartureTime = today.AddDays(1).AddHours(13),
-                    ArrivalTime = today.AddDays(1).AddHours(14).AddMinutes(20),
-                    Price = 90m,
-                    AvailableSeats = 18,
-                    TotalSeats = 24,
-                    Status = FlightStatus.Scheduled
-                },
-                new Flight
-                {
-                    FlightNumber = "LR1003",
-                    AirlineName = "Luftreise Airways",
-                    DepartureAirportId = kbp.Id,
-                    ArrivalAirportId = bud.Id,
-                    DepartureTime = today.AddDays(2).AddHours(8),
-                    ArrivalTime = today.AddDays(2).AddHours(10),
-                    Price = 110m,
-                    AvailableSeats = 20,
-                    TotalSeats = 28,
-                    Status = FlightStatus.Scheduled
-                },
-                new Flight
-                {
-                    FlightNumber = "LR1004",
-                    AirlineName = "Luftreise Airways",
-                    DepartureAirportId = prg.Id,
-                    ArrivalAirportId = lwo.Id,
-                    DepartureTime = today.AddDays(2).AddHours(15),
-                    ArrivalTime = today.AddDays(2).AddHours(17),
-                    Price = 105m,
-                    AvailableSeats = 16,
-                    TotalSeats = 22,
-                    Status = FlightStatus.Scheduled
-                },
-                new Flight
-                {
-                    FlightNumber = "LR1005",
-                    AirlineName = "Luftreise Airways",
-                    DepartureAirportId = waw.Id,
-                    ArrivalAirportId = kbp.Id,
-                    DepartureTime = today.AddDays(3).AddHours(10),
-                    ArrivalTime = today.AddDays(3).AddHours(12),
-                    Price = 115m,
-                    AvailableSeats = 22,
-                    TotalSeats = 30,
-                    Status = FlightStatus.Scheduled
-                },
-                new Flight
-                {
-                    FlightNumber = "LR1006",
-                    AirlineName = "Luftreise Airways",
-                    DepartureAirportId = bud.Id,
-                    ArrivalAirportId = kbp.Id,
-                    DepartureTime = today.AddDays(3).AddHours(18),
-                    ArrivalTime = today.AddDays(3).AddHours(20),
-                    Price = 130m,
-                    AvailableSeats = 14,
-                    TotalSeats = 20,
-                    Status = FlightStatus.Scheduled
-                }
-            };
+      {
+        new()
+        {
+          FlightNumber = "LR1001",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = kbp.Id,
+          ArrivalAirportId = prg.Id,
+          DepartureTime = today.AddDays(1).AddHours(9),
+          ArrivalTime = today.AddDays(1).AddHours(11),
+          Price = 120m,
+          AvailableSeats = 25,
+          TotalSeats = 30,
+          Status = FlightStatus.Scheduled
+        },
+        new()
+        {
+          FlightNumber = "LR1002",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = lwo.Id,
+          ArrivalAirportId = waw.Id,
+          DepartureTime = today.AddDays(1).AddHours(13),
+          ArrivalTime = today.AddDays(1).AddHours(14).AddMinutes(20),
+          Price = 90m,
+          AvailableSeats = 18,
+          TotalSeats = 24,
+          Status = FlightStatus.Scheduled
+        },
+        new()
+        {
+          FlightNumber = "LR1003",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = kbp.Id,
+          ArrivalAirportId = bud.Id,
+          DepartureTime = today.AddDays(2).AddHours(8),
+          ArrivalTime = today.AddDays(2).AddHours(10),
+          Price = 110m,
+          AvailableSeats = 20,
+          TotalSeats = 28,
+          Status = FlightStatus.Scheduled
+        },
+        new()
+        {
+          FlightNumber = "LR1004",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = prg.Id,
+          ArrivalAirportId = lwo.Id,
+          DepartureTime = today.AddDays(2).AddHours(15),
+          ArrivalTime = today.AddDays(2).AddHours(17),
+          Price = 105m,
+          AvailableSeats = 16,
+          TotalSeats = 22,
+          Status = FlightStatus.Scheduled
+        },
+        new()
+        {
+          FlightNumber = "LR1005",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = waw.Id,
+          ArrivalAirportId = kbp.Id,
+          DepartureTime = today.AddDays(3).AddHours(10),
+          ArrivalTime = today.AddDays(3).AddHours(12),
+          Price = 115m,
+          AvailableSeats = 22,
+          TotalSeats = 30,
+          Status = FlightStatus.Scheduled
+        },
+        new()
+        {
+          FlightNumber = "LR1006",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = bud.Id,
+          ArrivalAirportId = kbp.Id,
+          DepartureTime = today.AddDays(3).AddHours(18),
+          ArrivalTime = today.AddDays(3).AddHours(20),
+          Price = 130m,
+          AvailableSeats = 14,
+          TotalSeats = 20,
+          Status = FlightStatus.Scheduled
+        }
+      };
 
-      await context.Flights.AddRangeAsync(flights);
+      foreach (var flight in flights)
+      {
+        if (existingFlights.TryGetValue(flight.FlightNumber, out var existingFlight))
+        {
+          existingFlight.AirlineName = flight.AirlineName;
+          existingFlight.DepartureAirportId = flight.DepartureAirportId;
+          existingFlight.ArrivalAirportId = flight.ArrivalAirportId;
+          existingFlight.DepartureTime = flight.DepartureTime;
+          existingFlight.ArrivalTime = flight.ArrivalTime;
+          existingFlight.Price = flight.Price;
+          existingFlight.AvailableSeats = flight.AvailableSeats;
+          existingFlight.TotalSeats = flight.TotalSeats;
+          existingFlight.Status = flight.Status;
+        }
+        else
+        {
+          await context.Flights.AddAsync(flight);
+        }
+      }
+
       await context.SaveChangesAsync();
     }
 
