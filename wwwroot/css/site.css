@@ -3845,3 +3845,359 @@ body.modal-open {
     min-width: 760px;
   }
 }
+
+
+
+/* ===== ADAPTIVE BOOKING PASSENGERS SCREEN ===== */
+
+.booking-screen__container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.booking-screen__layout {
+  display: grid;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: start;
+}
+
+.booking-passengers-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 1200px) {
+  .booking-screen__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-passenger-grid,
+  .booking-ticket-grid-2,
+  .booking-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+booking-screen {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.booking-screen__container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+.booking-screen__layout {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: start;
+}
+
+.booking-screen__form-card,
+.booking-screen__ticket-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.booking-passengers-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.booking-passenger-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* планшет і менші екрани */
+@media (max-width: 1100px) {
+  .booking-screen__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-screen__ticket-card {
+    order: 2;
+  }
+
+  .booking-screen__form-card {
+    order: 1;
+  }
+}
+
+/* телефон */
+@media (max-width: 768px) {
+  .booking-screen__container {
+    padding: 16px 12px 32px;
+  }
+
+  .booking-screen__form-card,
+  .booking-screen__ticket-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .booking-form,
+  .booking-passenger-grid,
+  .booking-ticket-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-step__line {
+    display: none;
+  }
+}
+
+
+/* EXTRA SMALL SCREEN - ticket on top */
+
+@media (max-width: 520px) {
+  .booking-screen__layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .booking-screen__ticket-card {
+    order: 1;
+  }
+
+  .booking-screen__form-card {
+    order: 2;
+  }
+
+  .booking-screen__steps {
+    margin-bottom: 14px;
+  }
+
+  .booking-screen__form-card,
+  .booking-screen__ticket-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .booking-screen__form-title,
+  .booking-screen__ticket-title {
+    font-size: 20px;
+  }
+}
+
+/* Final mobile overrides for booking page */
+.booking-screen {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.booking-screen__topline,
+.booking-screen__container,
+.booking-screen__layout,
+.booking-screen__form-card,
+.booking-screen__ticket-card,
+.booking-passenger-card,
+.booking-passenger-grid,
+.booking-form,
+.booking-passengers-list {
+  min-width: 0;
+}
+
+.booking-ticket-value {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+  .booking-screen {
+    padding-bottom: 24px;
+  }
+
+  .booking-screen__topline {
+    padding: 14px 12px 10px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .booking-screen__container {
+    padding: 14px 12px 28px;
+  }
+
+  .booking-screen__steps {
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .booking-step {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .booking-step span {
+    line-height: 1.2;
+  }
+
+  .booking-screen__layout {
+    gap: 14px;
+  }
+
+  .booking-screen__ticket-card {
+    order: 1;
+  }
+
+  .booking-screen__form-card {
+    order: 2;
+  }
+
+  .booking-screen__form-card,
+  .booking-screen__ticket-card,
+  .booking-passenger-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .booking-screen__form-title,
+  .booking-screen__ticket-title {
+    margin-bottom: 18px;
+    font-size: 19px;
+    gap: 10px;
+  }
+
+  .booking-passengers-header {
+    align-items: flex-start;
+  }
+
+  .booking-passengers-header h3 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .booking-passengers-header p,
+  .booking-ticket-label,
+  .booking-note {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .booking-passenger-card__header {
+    margin-bottom: 14px;
+  }
+
+  .booking-passenger-card__header h4 {
+    font-size: 16px;
+  }
+
+  .booking-field input,
+  .booking-select,
+  .booking-submit {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  .booking-field input,
+  .booking-select {
+    padding: 0 14px;
+  }
+
+  .booking-note {
+    align-items: flex-start;
+    padding: 12px 14px;
+    min-height: 0;
+  }
+
+  .booking-ticket-section {
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+
+  .booking-ticket-value {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 520px) {
+  .booking-screen__topline,
+  .booking-screen__container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .booking-screen__steps {
+    align-items: flex-start;
+  }
+
+  .booking-step {
+    font-size: 13px;
+  }
+
+  .booking-step__circle {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    flex: 0 0 32px;
+  }
+
+  .booking-screen__form-card,
+  .booking-screen__ticket-card,
+  .booking-passenger-card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .booking-ticket-grid-2 {
+    gap: 12px;
+  }
+}
+
+/* HARD FIX BOOKING SMALL SCREEN */
+
+@media (max-width: 520px) {
+  .booking-screen,
+  .booking-screen__container,
+  .booking-screen__layout {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .booking-screen__layout {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "ticket"
+      "form" !important;
+    gap: 16px;
+  }
+
+  .booking-screen__ticket-card {
+    grid-area: ticket !important;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .booking-screen__form-card {
+    grid-area: form !important;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .booking-passengers-list,
+  .booking-passenger-grid,
+  .booking-form,
+  .booking-ticket-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
