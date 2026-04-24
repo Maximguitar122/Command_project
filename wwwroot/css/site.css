@@ -4201,3 +4201,26 @@ booking-screen {
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* BOOKING NUMBER FIX */
+
+.booking-reference,
+.booking-number,
+.confirmation-number,
+.ticket-number {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-height: 1.2;
+  font-size: clamp(24px, 6vw, 44px);
+}
+
+@media (max-width: 520px) {
+  .booking-reference,
+  .booking-number,
+  .confirmation-number,
+  .ticket-number {
+    font-size: 18px;
+  }
+}
