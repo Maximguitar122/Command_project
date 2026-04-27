@@ -246,6 +246,7 @@ namespace Luftreise_Command_project.Controllers
         "прага" => "Prague",
         "варшава" => "Warsaw",
         "будапешт" => "Budapest",
+        "сан-паулу" => "São Paulo",
         _ => city
       };
     }
@@ -259,7 +260,8 @@ namespace Luftreise_Command_project.Controllers
         "Prague" => "Прага",
         "Warsaw" => "Варшава",
         "Budapest" => "Будапешт",
-        _ => city
+        "São Paulo" => "Сан-Паулу",  
+          _ => city
       };
     }
 
@@ -274,6 +276,7 @@ namespace Luftreise_Command_project.Controllers
         "Prague" => "прага prague",
         "Warsaw" => "варшава warsaw",
         "Budapest" => "будапешт budapest",
+        "São Paulo" => "сан-паулу são paulo",
         _ => city.ToLowerInvariant()
       };
 

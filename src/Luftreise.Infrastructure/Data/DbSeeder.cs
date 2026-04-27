@@ -2,6 +2,7 @@ using Luftreise.Domain.Entities;
 using Luftreise.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -66,6 +67,14 @@ namespace Luftreise.Infrastructure.Data
                     City = "Budapest",
                     Country = "Hungary",
                     Location = new Point(19.2556, 47.4369) { SRID = 4326 }
+                },
+                new Airport
+                {
+                    Code = "GRU",
+                    Name = "São Paulo/Guarulhos International Airport",
+                    City = "São Paulo",
+                    Country = "Brazil",
+                    Location = new Point(-46.47306, -23.43556) { SRID = 4326 }
                 }
             };
 
@@ -82,6 +91,7 @@ namespace Luftreise.Infrastructure.Data
       var prg = airports.First(a => a.Code == "PRG");
       var waw = airports.First(a => a.Code == "WAW");
       var bud = airports.First(a => a.Code == "BUD");
+      var gru = airports.First(a => a.Code == "GRU");
 
       var today = DateTime.Today;
       var existingFlights = await context.Flights.ToDictionaryAsync(f => f.FlightNumber);
@@ -164,6 +174,19 @@ namespace Luftreise.Infrastructure.Data
           Price = 130m,
           AvailableSeats = 14,
           TotalSeats = 20,
+          Status = FlightStatus.Scheduled
+        },
+        new()
+        {
+          FlightNumber = "LR1007",
+          AirlineName = "Luftreise Airways",
+          DepartureAirportId = bud.Id,
+          ArrivalAirportId = gru.Id,
+          DepartureTime = today.AddDays(3).AddHours(10),
+          ArrivalTime = today.AddDays(3).AddHours(22),
+          Price = 120m,
+          AvailableSeats = 25,
+          TotalSeats = 30,
           Status = FlightStatus.Scheduled
         }
       };
